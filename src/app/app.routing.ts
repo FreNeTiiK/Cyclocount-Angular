@@ -35,22 +35,27 @@ export const appRoutes: Route[] = [
                 path: 'home',
                 loadChildren: () => import('app/modules/admin/home/home.module').then(m => m.HomeModule)
             },
-            /*{
+            {
                 // Activities
                 path: 'activities',
-                loadChildren: () => import('app/modules/admin/activities/activities.module').then(m => m.ActivitiesModule),
+                loadChildren: () => import('app/modules/admin/activity/activity.module').then(m => m.ActivityModule),
+            },
+            {
+                // Statistics
+                path: 'statistics',
+                loadChildren: () => import('app/modules/admin/statistic/statistic.module').then(m => m.StatisticModule),
+            },
+            {
+                // Equipment
+                path: 'equipments',
+                loadChildren: () => import('app/modules/admin/equipment/equipment.module').then(m => m.EquipmentModule),
             },
             {
                 // Annual Objectives
                 path: 'annualObjectives',
-                loadChildren: () => import('app/modules/admin/annual-objectives/annual-objectives.module').then(m => m.AnnualObjectivesModule),
+                loadChildren: () => import('app/modules/admin/annual-objective/annual-objective.module').then(m => m.AnnualObjectiveModule),
             },
-            {
-                // Equipment
-                path: 'equipment',
-                loadChildren: () => import('app/modules/admin/equipment/equipment.module').then(m => m.EquipmentModule),
-            },
-            {
+            /*{
                 // Settings
                 path: 'settings',
                 loadChildren: () => import('app/layout/common/settings/settings.module').then(m => m.SettingsModule)

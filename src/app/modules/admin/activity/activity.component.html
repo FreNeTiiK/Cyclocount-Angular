@@ -1,0 +1,252 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+    <!-- Header -->
+    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">Mes activités</div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Add activity button -->
+            <button
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="createActivity()">
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <span class="ml-2 mr-1">Ajouter</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-auto overflow-hidden">
+        <!-- Stock list -->
+        <div class="flex flex-col flex-auto overflow-auto">
+            <ng-container *ngIf="(dataSource.data) as activities">
+                <div class="grid overflow-auto">
+                    <!-- Header -->
+                    <div
+                        class="activities-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5 items-end">
+                        <div [mat-sort-header]="'departure_time'">
+                            Date
+                        </div>
+                        <div [mat-sort-header]="'title'">
+                            Titre
+                        </div>
+                        <div [mat-sort-header]="'duration'">
+                            Durée
+                        </div>
+                        <div [mat-sort-header]="'speed_average'">
+                            Vitesse moyenne
+                        </div>
+                        <div [mat-sort-header]="'speed_max'">
+                            Vitesse maximale
+                        </div>
+                        <div>
+                            Details
+                        </div>
+                    </div>
+                    <!-- Rows -->
+                    <ng-container *ngIf="(dataSource.data) as activities">
+                        <ng-container *ngIf="activities.length > 0; else noActivities">
+                            <ng-container *ngFor="let activity of activities;">
+                                <div class="activities-grid grid items-center text-base gap-4 py-2 px-6 md:px-8 border-b">
+                                    <!-- Date -->
+                                    <div>
+                                        {{moment(activity.departure_time).format('DD/MM/YYYY')}}
+                                    </div>
+
+                                    <!-- Title -->
+                                    <div>
+                                        {{activity.title}}
+                                    </div>
+
+                                    <!-- Duration -->
+                                    <div>
+                                        {{getDuration(activity.departure_time, activity.arrival_time)}}
+                                    </div>
+
+                                    <!-- Speed Average -->
+                                    <div>
+                                        {{activity.speed_average}} km/h
+                                    </div>
+
+                                    <!-- Speed Max -->
+                                    <div>
+                                        {{activity.speed_max}} km/h
+                                    </div>
+
+                                    <div>
+                                        <button
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                            mat-stroked-button
+                                            (click)="toggleDetails(activity.id)">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="selectedActivity?.id === activity.id ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <ng-container *ngIf="selectedActivity?.id === activity.id">
+                                        <ng-container *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: activity}"></ng-container>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+<!--                <mat-paginator-->
+<!--                    class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"-->
+<!--                    [pageSizeOptions]="[20, 50, 100, 200]"-->
+<!--                    [pageIndex]="currentPage"-->
+<!--                    [length]="totalRows"-->
+<!--                    [pageSize]="pageSize"-->
+<!--                    (page)="pageChanged($event)"-->
+<!--                    [showFirstLastButtons]="true"></mat-paginator>-->
+            </ng-container>
+
+            <ng-template
+                #rowDetailsTemplate
+                let-activity>
+                <div class="shadow-lg overflow-hidden">
+                    <div class="flex border-b">
+                        <div class="flex flex-col w-full">
+
+                            <div class="flex flex-row px-12 py-7 pb-3 justify-center">
+                                <div class="flex flex-col w-1/2">
+                                    <!-- Titre -->
+                                    <div class="flex flex-col pb-8 text-center border-b pb-4">
+                                        <div class="font-medium">
+                                            Titre
+                                        </div>
+                                        <div class="text-secondary">
+                                            {{activity.title}}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-auto justify-center pt-4">
+                                        <!-- Col 1 -->
+                                        <div class="flex flex-col w-1/2">
+                                            <!-- Date de départ -->
+                                            <div class="flex flex-col pr-15 pb-5">
+                                                <div class="font-medium">
+                                                    Date de départ
+                                                </div>
+                                                <div class="text-secondary">
+                                                    {{activity.departure_time}}
+                                                </div>
+                                            </div>
+
+                                            <!-- Vitesse moyenne -->
+                                            <div class="flex flex-col pr-15 pb-5">
+                                                <div class="font-medium">
+                                                    Vitesse moyenne
+                                                </div>
+                                                <div class="text-secondary">
+                                                    {{activity.speed_average}}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Col 2 -->
+                                        <div class="flex flex-col w-1/2">
+                                        <!-- Date d'arrivée -->
+                                        <div class="flex flex-col pb-5">
+                                            <div class="font-medium">
+                                                Date d'arrivée
+                                            </div>
+                                            <div class="text-secondary">
+                                                {{activity.arrival_time}}
+                                            </div>
+                                        </div>
+
+                                        <!-- Vitesse maximale -->
+                                        <div class="flex flex-col pb-5">
+                                            <div class="font-medium">
+                                                Vitesse maximale
+                                            </div>
+                                            <div class="text-secondary">
+                                                {{activity.speed_max}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col w-1/2">
+                                    <!-- Description -->
+                                    <div class="flex flex-col border-b pb-4">
+                                        <div class="font-medium">
+                                            Description
+                                        </div>
+                                        <div class="text-secondary">
+                                            {{activity.description}}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-auto justify-center pt-4">
+                                        <!-- Col 1 -->
+                                        <div class="flex flex-col w-1/2">
+                                            <!-- Puissance moyenne -->
+                                            <div class="flex flex-col pr-15 pb-5">
+                                                <div class="font-medium">
+                                                    Puissance moyenne
+                                                </div>
+                                                <div class="text-secondary">
+                                                    {{activity.power_average}}
+                                                </div>
+                                            </div>
+
+                                            <!-- Calories consommées -->
+                                            <div class="flex flex-col">
+                                                <div class="font-medium">
+                                                    Calories consommées
+                                                </div>
+                                                <div class="text-secondary">
+                                                    {{activity.calories_consumed}}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Col 2 -->
+                                        <div class="flex flex-col w-1/2">
+                                            <!-- Dénivelé -->
+                                            <div class="flex flex-col pr-15 pb-5">
+                                                <div class="font-medium">
+                                                    Dénivelé
+                                                </div>
+                                                <div class="text-secondary">
+                                                    {{activity.height_difference}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="flex items-center justify-between w-full border-t px-8 py-4">
+                                <button
+                                    class="-ml-4"
+                                    mat-button
+                                    [color]="'warn'"
+                                    (click)="deleteSelectedActivity()">
+                                    Supprimer
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template #noActivities>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">Aucune activité trouvée !</div>
+            </ng-template>
+
+        </div>
+
+    </div>
+</div>

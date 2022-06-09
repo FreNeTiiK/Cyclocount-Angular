@@ -62,11 +62,43 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
         this.navigationItems = [
             {
                 id      : 'home',
-                title   : 'Home',
-                tooltip : 'Home',
+                title   : 'Accueil',
+                tooltip : 'Accueil',
                 type    : 'basic',
                 icon    : 'heroicons_outline:home',
                 link    : '/home'
+            },
+            {
+                id      : 'activities',
+                title   : 'Activités',
+                tooltip : 'Activités',
+                type    : 'basic',
+                icon    : 'feather:activity',
+                link    : '/activities'
+            },
+            {
+                id      : 'statistics',
+                title   : 'Statistiques',
+                tooltip : 'Statistiques',
+                type    : 'basic',
+                icon    : 'heroicons_outline:chart-pie',
+                link    : '/statistics'
+            },
+            {
+                id      : 'equipments',
+                title   : 'Équipements',
+                tooltip : 'Équipements',
+                type    : 'basic',
+                icon    : 'mat_outline:sports_basketball',
+                link    : '/equipments'
+            },
+            {
+                id      : 'annualObjectives',
+                title   : 'Objectifs annuels',
+                tooltip : 'Objectifs annuels',
+                type    : 'basic',
+                icon    : 'feather:target',
+                link    : '/annualObjectives'
             },
         ];
     }

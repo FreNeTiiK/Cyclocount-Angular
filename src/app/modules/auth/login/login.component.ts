@@ -8,7 +8,7 @@ import {FuseAlertType} from '@fuse/components/alert';
 import {fuseAnimations} from '@fuse/animations';
 import {UserService} from 'app/core/user/user.service';
 import {CommunicationService} from 'app/core/communication/communication.service';
-import {User} from 'app/core/user/user.types';
+import {User} from 'app/core/user/user.type';
 
 
 @Component({

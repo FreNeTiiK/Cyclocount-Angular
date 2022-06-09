@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEnca
 import {IsActiveMatchOptions, Router} from '@angular/router';
 import {AuthService} from 'app/core/auth/auth.service';
 import {StorageService} from 'app/core/storage/storage.service';
-import {User} from 'app/core/user/user.types';
+import {User} from 'app/core/user/user.type';
 import {CommunicationService} from 'app/core/communication/communication.service';
 
 @Component({
