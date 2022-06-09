@@ -6,6 +6,12 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import {SharedModule} from 'app/shared/shared.module';
 
 const activityRoutes: Route[] = [
     {
@@ -21,9 +27,15 @@ const activityRoutes: Route[] = [
     imports: [
         RouterModule.forChild(activityRoutes),
         CommonModule,
+        SharedModule,
         MatInputModule,
         MatIconModule,
         MatButtonModule,
+        NgxMatDatetimePickerModule,
+        MatDatepickerModule,
+        MatMomentDateModule,
+        MatSlideToggleModule,
+        NgxMatMomentModule
     ],
     providers   : [
         {

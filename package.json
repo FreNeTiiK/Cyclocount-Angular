@@ -12,6 +12,8 @@
         "lint": "ng lint"
     },
     "dependencies": {
+        "@angular-material-components/datetime-picker": "^7.0.1",
+        "@angular-material-components/moment-adapter": "^7.0.0",
         "@angular/animations": "13.1.1",
         "@angular/cdk": "13.1.1",
         "@angular/common": "13.1.1",
