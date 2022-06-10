@@ -51,17 +51,15 @@ export class ActivityComponent implements OnInit {
     ngOnInit(): void
     {
         this.selectedActivityForm = this.formBuilder.group({
-            id: [null, Validators.required],
-            user_id: [this.user.id, Validators.required],
-            title: ['', Validators.required],
-            description: [''],
-            departure_time: [''],
-            arrival_time: [''],
-            speed_average: ['', Validators.required],
-            speed_max: ['', Validators.required],
-            height_difference: [''],
-            power_average: [''],
-            calories_consumed: ['']
+            title: [null, Validators.required],
+            description: [null],
+            departure_time: [null],
+            arrival_time: [null],
+            speed_average: [null, Validators.required],
+            speed_max: [null, Validators.required],
+            height_difference: [null],
+            power_average: [null],
+            calories_consumed: [null]
         });
 
         this.getActivitiesTable();
@@ -80,8 +78,8 @@ export class ActivityComponent implements OnInit {
     }
 
     toggleDetails(activityId: number): void {
-        // If the product is already selected...
-        if ( this.selectedActivity && this.selectedActivity.id === activityId )
+        // If the activity is already selected...
+        if (this.selectedActivity && this.selectedActivity.id === activityId)
         {
             // Close the details
             this.closeDetails();
@@ -95,6 +93,7 @@ export class ActivityComponent implements OnInit {
     closeDetails(): void
     {
         this.selectedActivity = null;
+        this.selectedActivityForm.reset();
     }
 
     deleteSelectedActivity(): void
@@ -126,8 +125,8 @@ export class ActivityComponent implements OnInit {
     createActivity(): void
     {
         this.addingMode = true;
-
-        const newActivity = {
+        this.selectedActivityForm.reset();
+        this.selectedActivity = {
             id: null,
             user_link: this.user,
             title: null,
@@ -141,13 +140,10 @@ export class ActivityComponent implements OnInit {
             calories_consumed: null,
         };
 
-        this.selectedActivity = newActivity;
-
-        this.selectedActivityForm.patchValue(newActivity);
-        this.activities.unshift(newActivity);
+        this.activities.unshift(this.selectedActivity);
         setTimeout(() => {
             this.titleAddField.nativeElement.focus();
-        });
+        }, 100);
     }
 
     getDuration(startDate: string, endDate: string): string {
@@ -155,10 +151,13 @@ export class ActivityComponent implements OnInit {
         return moment.utc(seconds*1000).format('HH[h] mm[min] ss[s]');
     }
 
-    saveAdd(): void {
+    addActivity(): void {
         const activity = this.selectedActivityForm.getRawValue();
+        console.log(activity);
+
         const activityToCreate: ActivityPush = this.getActivityToPush(activity);
 
+        console.log(activityToCreate);
         this.activityService.createActivity(activityToCreate).subscribe({
             next: () => {
                 this.getActivitiesTable();
@@ -192,8 +191,8 @@ export class ActivityComponent implements OnInit {
             user_id: this.user.id,
             title: activity.title,
             description: activity.description,
-            departure_time: moment(activity.departure_time).format('YYYY-MM-DD HH:mm:ss'),
-            arrival_time: moment(activity.arrival_time).format('YYYY-MM-DD HH:mm:ss'),
+            departure_time: activity.departure_time ? moment(activity.departure_time).format('YYYY-MM-DD HH:mm:ss') : null,
+            arrival_time: activity.arrival_time ? moment(activity.arrival_time).format('YYYY-MM-DD HH:mm:ss') : null,
             speed_average: activity.speed_average,
             speed_max: activity.speed_max,
             height_difference: activity.height_difference,
@@ -219,8 +218,9 @@ export class ActivityComponent implements OnInit {
         }, 7000);
     }
 
-    cancelAdd(): void {
+    cancelAdding(): void {
         this.addingMode = false;
+        this.selectedActivityForm.reset();
         this.getActivitiesTable();
     }
 }
