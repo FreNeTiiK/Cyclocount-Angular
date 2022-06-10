@@ -12,6 +12,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import {SharedModule} from 'app/shared/shared.module';
+import {MatSelectModule} from "@angular/material/select";
 
 const activityRoutes: Route[] = [
     {
@@ -35,7 +36,8 @@ const activityRoutes: Route[] = [
         MatDatepickerModule,
         MatMomentDateModule,
         MatSlideToggleModule,
-        NgxMatMomentModule
+        NgxMatMomentModule,
+        MatSelectModule
     ],
     providers   : [
         {

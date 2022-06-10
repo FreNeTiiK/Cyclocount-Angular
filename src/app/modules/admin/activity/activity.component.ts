@@ -13,6 +13,8 @@ import moment from 'moment';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivityPush} from 'app/modules/admin/activity/types/activity-push.type';
+import {EquipmentService} from "../equipment/services/equipment.service";
+import {Equipment} from "../equipment/types/equipment.type";
 
 @Component({
     selector: 'app-activity',
@@ -28,6 +30,7 @@ export class ActivityComponent implements OnInit {
     @ViewChild('titleAddField') private titleAddField: ElementRef;
     dataSource = new MatTableDataSource<Activity>();
     activities: Activity[];
+    equipments: Equipment[];
     moment: any = moment;
     selectedActivity: Activity | null = null;
     selectedActivityForm: FormGroup;
@@ -38,6 +41,7 @@ export class ActivityComponent implements OnInit {
 
     constructor(
         private activityService: ActivityService,
+        private equipmentService: EquipmentService,
         private storageService: StorageService,
         private _fuseConfirmationService: FuseConfirmationService,
         public auth: AuthService,
@@ -52,6 +56,7 @@ export class ActivityComponent implements OnInit {
     {
         this.selectedActivityForm = this.formBuilder.group({
             title: [null, Validators.required],
+            equipment_id: [null, Validators.required],
             description: [null],
             departure_time: [null],
             arrival_time: [null],
@@ -63,9 +68,11 @@ export class ActivityComponent implements OnInit {
         });
 
         this.getActivitiesTable();
+        this.getEquipmentsByUser();
     }
 
-    getActivitiesTable(): void {
+    getActivitiesTable(): void
+    {
         this.activityService.getActivitiesByUser(this.user.id).subscribe({
             next: (activities) => {
                 this.dataSource.data = activities;
@@ -77,7 +84,20 @@ export class ActivityComponent implements OnInit {
         });
     }
 
-    toggleDetails(activityId: number): void {
+    getEquipmentsByUser(): void
+    {
+        this.equipmentService.getEquipmentsByUser(this.user.id).subscribe({
+            next: (equipments) => {
+                this.equipments = equipments;
+            },
+            error: () => {
+                this.toastr.error('Il y a eu un problème');
+            }
+        });
+    }
+
+    toggleDetails(activityId: number): void
+    {
         // If the activity is already selected...
         if (this.selectedActivity && this.selectedActivity.id === activityId)
         {
@@ -87,6 +107,7 @@ export class ActivityComponent implements OnInit {
         }
 
         this.selectedActivity = this.activities.find(item => item.id === activityId) || null;
+        this.selectedActivityForm.get('equipment_id').patchValue(this.selectedActivity.equipment.id);
         this.selectedActivityForm.patchValue(this.selectedActivity);
     }
 
@@ -129,6 +150,7 @@ export class ActivityComponent implements OnInit {
         this.selectedActivity = {
             id: null,
             user_link: this.user,
+            equipment: null,
             title: null,
             description: null,
             departure_time: null,
@@ -151,7 +173,8 @@ export class ActivityComponent implements OnInit {
         return moment.utc(seconds*1000).format('HH[h] mm[min] ss[s]');
     }
 
-    addActivity(): void {
+    addActivity(): void
+    {
         const activity = this.selectedActivityForm.getRawValue();
         const activityToCreate: ActivityPush = this.getActivityToPush(activity);
 
@@ -168,11 +191,12 @@ export class ActivityComponent implements OnInit {
         });
     }
 
-    updateSelectedActivity(): void {
+    updateSelectedActivity(): void
+    {
         const activity = this.selectedActivityForm.getRawValue();
         const activityToUpdate: ActivityPush = this.getActivityToPush(activity);
 
-        this.activityService.updateActivity(activity.id, activityToUpdate).subscribe({
+        this.activityService.updateActivity(this.selectedActivity.id, activityToUpdate).subscribe({
             next: () => {
                 this.getActivitiesTable();
                 this.showFlashMessage('success', 'Activité mise à jour');
@@ -183,9 +207,11 @@ export class ActivityComponent implements OnInit {
         });
     }
 
-    getActivityToPush(activity: Activity): ActivityPush {
+    getActivityToPush(activity: any): ActivityPush
+    {
         return {
             user_id: this.user.id,
+            equipment_id: activity.equipment_id,
             title: activity.title,
             description: activity.description,
             departure_time: activity.departure_time ? moment(activity.departure_time).format('YYYY-MM-DD HH:mm:ss') : null,
@@ -198,7 +224,8 @@ export class ActivityComponent implements OnInit {
         };
     }
 
-    cancelAdding(): void {
+    cancelAdding(): void
+    {
         this.addingMode = false;
         this.selectedActivityForm.reset();
         this.getActivitiesTable();

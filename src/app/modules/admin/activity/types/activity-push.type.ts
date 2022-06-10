@@ -1,6 +1,7 @@
 
 export interface ActivityPush {
     user_id: number;
+    equipment_id: number;
     title: string;
     description: string|null;
     departure_time: string|null;

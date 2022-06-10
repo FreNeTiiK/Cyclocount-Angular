@@ -1,4 +1,5 @@
 import {User} from 'app/core/user/user.type';
+import {Equipment} from 'app/modules/admin/equipment/types/equipment.type';
 
 export interface Activity {
     id: number;
@@ -11,5 +12,6 @@ export interface Activity {
     height_difference: number;
     power_average: number;
     calories_consumed: number;
+    equipment: Equipment;
     user_link: User;
 }
