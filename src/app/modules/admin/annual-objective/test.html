@@ -1,0 +1,70 @@
+                            <ng-container *ngIf="createAnnualObjectiveForm.controls.id.value !== annualObjective.id">
+                                <!-- Annual Objective name -->
+                                <div class="flex flex-auto justify-between items-center" [formGroup]="nameAnnualObjectiveForm" *ngIf="nameAnnualObjectiveForm && selectedAnnualObjective === annualObjective">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <input matInput
+                                               placeholder="Nom"
+                                               [formControlName]="'name'"
+                                               #nameField>
+                                    </mat-form-field>
+
+                                    <div class="flex flex-col">
+                                        <mat-icon
+                                            (click)="selectedAnnualObjective = null; nameAnnualObjectiveForm.reset()"
+                                            class="icon-size-5 ml-5 cursor-pointer"
+                                            [matTooltip]="'Annuler'"
+                                            [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                                        <mat-icon
+                                            (click)="saveEdit(annualObjective.id)"
+                                            class="icon-size-5 ml-5 cursor-pointer"
+                                            [matTooltip]="'Sauvegarder'"
+                                            [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex flex-auto justify-between items-center p-1.5 rounded hover:bg-gray-800 hover:bg-opacity-5 hover:dark:bg-white hover:dark:bg-opacity-12"
+                                    *ngIf="selectedAnnualObjective !== annualObjective"
+                                    (click)="editAnnualObjectiveName(annualObjective)">
+                                    {{annualObjective.name}}
+                                </div>
+
+                                <!-- Annual Objective quantity -->
+                                <div class="flex flex-auto justify-between items-center" [formGroup]="qtyAnnualObjectiveForm" *ngIf="qtyAnnualObjectiveForm && selectedAnnualObjective === annualObjective">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <input matInput
+                                               placeholder="Quantité"
+                                               [formControlName]="'qty'"
+                                               #nameField>
+                                    </mat-form-field>
+
+                                    <div class="flex flex-col">
+                                        <mat-icon
+                                            (click)="selectedAnnualObjective = null; qtyAnnualObjectiveForm.reset()"
+                                            class="icon-size-5 ml-5 cursor-pointer"
+                                            [matTooltip]="'Annuler'"
+                                            [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                                        <mat-icon
+                                            (click)="saveEdit(annualObjective.id)"
+                                            class="icon-size-5 ml-5 cursor-pointer"
+                                            [matTooltip]="'Sauvegarder'"
+                                            [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex flex-auto justify-between items-center p-1.5 rounded hover:bg-gray-800 hover:bg-opacity-5 hover:dark:bg-white hover:dark:bg-opacity-12"
+                                    *ngIf="selectedAnnualObjective !== annualObjective"
+                                    (click)="editAnnualObjectiveQty(annualObjective)">
+                                    {{annualObjective.quantity}}
+                                </div>
+
+                                <!-- Price Group end date -->
+                                <div class="flex flex-col">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full mb-5">
+                                        <mat-select [(value)]="annualObjective.type_objective.id">
+                                            <mat-option *ngFor="let typeObjective of typeObjectives" [value]="typeObjective.id">
+                                                {{typeObjective.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>

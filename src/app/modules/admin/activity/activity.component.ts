@@ -110,9 +110,9 @@ export class ActivityComponent implements OnInit {
         });
 
         confirmation.afterClosed().subscribe((result) => {
-            if ( result === 'confirmed' )
+            if (result === 'confirmed')
             {
-                // Delete the product on the server
+                // Delete the activity   on the server
                 this.activityService.deleteActivity(this.selectedActivity.id).subscribe(() => {
                     // Close the details
                     this.closeDetails();
@@ -153,11 +153,8 @@ export class ActivityComponent implements OnInit {
 
     addActivity(): void {
         const activity = this.selectedActivityForm.getRawValue();
-        console.log(activity);
-
         const activityToCreate: ActivityPush = this.getActivityToPush(activity);
 
-        console.log(activityToCreate);
         this.activityService.createActivity(activityToCreate).subscribe({
             next: () => {
                 this.getActivitiesTable();
@@ -201,6 +198,12 @@ export class ActivityComponent implements OnInit {
         };
     }
 
+    cancelAdding(): void {
+        this.addingMode = false;
+        this.selectedActivityForm.reset();
+        this.getActivitiesTable();
+    }
+
     /**
      * Show flash message
      */
@@ -216,11 +219,5 @@ export class ActivityComponent implements OnInit {
         setTimeout(() => {
             this.flashMessage = null;
         }, 7000);
-    }
-
-    cancelAdding(): void {
-        this.addingMode = false;
-        this.selectedActivityForm.reset();
-        this.getActivitiesTable();
     }
 }
