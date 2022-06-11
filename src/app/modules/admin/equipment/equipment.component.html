@@ -118,7 +118,7 @@
                             <ul class="list-disc pt-3 pl-10">
                                 <form [formGroup]="selectedEquipmentForm" *ngFor="let equipment of findActivityTypeEquipments(activityType)">
                                     <li>
-                                        <div class="flex flex-auto justify-between items-center item-line w-1/4">
+                                        <div class="flex flex-auto justify-between items-center item-line md:w-1/4">
                                             <div class="flex flex-auto items-center w-fit" *ngIf="selectedEquipment === equipment" #editField>
                                                 <mat-form-field class="fuse-mat-no-subscript font-medium w-50">
                                                     <input matInput
@@ -151,7 +151,7 @@
                                             </div>
 
                                             <mat-icon
-                                                class="hidden icon-size-5 cursor-pointer delete"
+                                                class="md:hidden icon-size-5 cursor-pointer delete"
                                                 (click)="deleteSelectedEquipment(equipment.id)"
                                                 [matTooltip]="'Supprimer'"
                                                 svgIcon="heroicons_outline:trash">
