@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorIntl, PageEvent} from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {StorageService} from 'app/core/storage/storage.service';
 import {AuthService} from 'app/core/auth/auth.service';
@@ -12,9 +12,10 @@ import {customPaginator} from 'app/core/utils/customPaginator';
 import moment from 'moment';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivityPush} from 'app/modules/admin/activity/types/activity-push.type';
-import {EquipmentService} from "../equipment/services/equipment.service";
-import {Equipment} from "../equipment/types/equipment.type";
+import {EquipmentService} from 'app/modules/admin/equipment/services/equipment.service';
+import {Equipment} from 'app/modules/admin/equipment/types/equipment.type';
+import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type';
+import {MatSelectChange} from '@angular/material/select';
 
 @Component({
     selector: 'app-activity',
@@ -26,10 +27,10 @@ import {Equipment} from "../equipment/types/equipment.type";
 })
 export class ActivityComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
-    // @ViewChild(MatSort) private sort: MatSort;
     @ViewChild('titleAddField') private titleAddField: ElementRef;
     dataSource = new MatTableDataSource<Activity>();
     activities: Activity[];
+    activityTypes: ActivityType[];
     equipments: Equipment[];
     moment: any = moment;
     selectedActivity: Activity | null = null;
@@ -56,7 +57,9 @@ export class ActivityComponent implements OnInit {
     {
         this.selectedActivityForm = this.formBuilder.group({
             title: [null, Validators.required],
-            equipment_id: [null, Validators.required],
+            user_id: [this.user.id, Validators.required],
+            equipment_id: ['none'],
+            activity_type_id: [null, Validators.required],
             description: [null],
             departure_time: [null],
             arrival_time: [null],
@@ -69,6 +72,7 @@ export class ActivityComponent implements OnInit {
 
         this.getActivitiesTable();
         this.getEquipmentsByUser();
+        this.getActivityTypes();
     }
 
     getActivitiesTable(): void
@@ -84,11 +88,30 @@ export class ActivityComponent implements OnInit {
         });
     }
 
-    getEquipmentsByUser(): void
+    getEquipmentsByUser(activityTypeId?: number): void
     {
-        this.equipmentService.getEquipmentsByUser(this.user.id).subscribe({
+        this.equipmentService.getEquipmentsByUser(this.user.id, activityTypeId).subscribe({
             next: (equipments) => {
                 this.equipments = equipments;
+
+                if (this.selectedActivity && this.selectedActivity.equipment) {
+                    const selectedActivityEquipment = this.equipments.find(e => e.id === this.selectedActivity.equipment.id);
+                    if (!selectedActivityEquipment) {
+                        this.selectedActivityForm.patchValue({equipment_id: 'none'});
+                    }
+                }
+            },
+            error: () => {
+                this.toastr.error('Il y a eu un problème');
+            }
+        });
+    }
+
+    getActivityTypes(): void
+    {
+        this.activityService.getActivityTypes().subscribe({
+            next: (activityTypes) => {
+                this.activityTypes = activityTypes;
             },
             error: () => {
                 this.toastr.error('Il y a eu un problème');
@@ -107,14 +130,16 @@ export class ActivityComponent implements OnInit {
         }
 
         this.selectedActivity = this.activities.find(item => item.id === activityId) || null;
-        this.selectedActivityForm.get('equipment_id').patchValue(this.selectedActivity.equipment.id);
+        this.selectedActivityForm.patchValue({user_id: this.selectedActivity.user_link.id});
+        this.selectedActivityForm.patchValue({equipment_id: this.selectedActivity.equipment ? this.selectedActivity.equipment.id : 'none'});
+        this.selectedActivityForm.patchValue({activity_type_id: this.selectedActivity.activity_type.id});
         this.selectedActivityForm.patchValue(this.selectedActivity);
     }
 
     closeDetails(): void
     {
         this.selectedActivity = null;
-        this.selectedActivityForm.reset();
+        this.selectedActivityForm.reset({user_id: this.user.id, equipment_id: 'none'});
     }
 
     deleteSelectedActivity(): void
@@ -146,10 +171,12 @@ export class ActivityComponent implements OnInit {
     createActivity(): void
     {
         this.addingMode = true;
-        this.selectedActivityForm.reset();
+        this.selectedActivityForm.reset({user_id: this.user.id, equipment_id: 'none'});
+
         this.selectedActivity = {
             id: null,
             user_link: this.user,
+            activity_type: null,
             equipment: null,
             title: null,
             description: null,
@@ -168,21 +195,15 @@ export class ActivityComponent implements OnInit {
         }, 100);
     }
 
-    getDuration(startDate: string, endDate: string): string {
-        const seconds = moment(endDate).diff(moment(startDate), 'seconds');
-        return moment.utc(seconds*1000).format('HH[h] mm[min] ss[s]');
-    }
-
     addActivity(): void
     {
-        const activity = this.selectedActivityForm.getRawValue();
-        const activityToCreate: ActivityPush = this.getActivityToPush(activity);
+        this.formateFormDates();
 
-        this.activityService.createActivity(activityToCreate).subscribe({
+        this.activityService.createActivity(this.selectedActivityForm.getRawValue()).subscribe({
             next: () => {
                 this.getActivitiesTable();
                 this.addingMode = false;
-                this.selectedActivityForm.reset();
+                this.selectedActivityForm.reset({user_id: this.user.id, equipment_id: 'none'});
                 this.showFlashMessage('success', 'Activité créée');
             },
             error: (err) => {
@@ -193,10 +214,9 @@ export class ActivityComponent implements OnInit {
 
     updateSelectedActivity(): void
     {
-        const activity = this.selectedActivityForm.getRawValue();
-        const activityToUpdate: ActivityPush = this.getActivityToPush(activity);
+        this.formateFormDates();
 
-        this.activityService.updateActivity(this.selectedActivity.id, activityToUpdate).subscribe({
+        this.activityService.updateActivity(this.selectedActivity.id, this.selectedActivityForm.getRawValue()).subscribe({
             next: () => {
                 this.getActivitiesTable();
                 this.showFlashMessage('success', 'Activité mise à jour');
@@ -207,28 +227,30 @@ export class ActivityComponent implements OnInit {
         });
     }
 
-    getActivityToPush(activity: any): ActivityPush
+    activityTypeChanged(event: MatSelectChange): void
     {
-        return {
-            user_id: this.user.id,
-            equipment_id: activity.equipment_id,
-            title: activity.title,
-            description: activity.description,
-            departure_time: activity.departure_time ? moment(activity.departure_time).format('YYYY-MM-DD HH:mm:ss') : null,
-            arrival_time: activity.arrival_time ? moment(activity.arrival_time).format('YYYY-MM-DD HH:mm:ss') : null,
-            speed_average: activity.speed_average,
-            speed_max: activity.speed_max,
-            height_difference: activity.height_difference,
-            power_average: activity.power_average,
-            calories_consumed: activity.calories_consumed
-        };
+        this.getEquipmentsByUser(event.value);
+    }
+
+    formateFormDates(): void
+    {
+        const departureDateFormValue = this.selectedActivityForm.get('departure_time').value;
+        const arrivalDateFormValue = this.selectedActivityForm.get('arrival_time').value;
+        this.selectedActivityForm.patchValue({departure_time: departureDateFormValue ? moment(departureDateFormValue).format('YYYY-MM-DD HH:mm:ss') : null});
+        this.selectedActivityForm.patchValue({arrival_time: arrivalDateFormValue ? moment(arrivalDateFormValue).format('YYYY-MM-DD HH:mm:ss') : null});
     }
 
     cancelAdding(): void
     {
         this.addingMode = false;
-        this.selectedActivityForm.reset();
+        this.selectedActivityForm.reset({user_id: this.user.id, equipment_id: 'none'});
         this.getActivitiesTable();
+    }
+
+    getDuration(startDate: string, endDate: string): string
+    {
+        const seconds = moment(endDate).diff(moment(startDate), 'seconds');
+        return moment.utc(seconds*1000).format('HH[h] mm[min] ss[s]');
     }
 
     /**

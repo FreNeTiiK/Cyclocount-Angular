@@ -89,7 +89,7 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
                 title   : 'Équipements',
                 tooltip : 'Équipements',
                 type    : 'basic',
-                icon    : 'mat_outline:sports_basketball',
+                icon    : 'mat_outline:pedal_bike',
                 link    : '/equipments'
             },
             {

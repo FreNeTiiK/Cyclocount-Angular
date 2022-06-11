@@ -4,12 +4,14 @@ import {Observable} from 'rxjs';
 import {environment} from 'environments/environment';
 import {Activity} from 'app/modules/admin/activity/types/activity.type';
 import {ActivityPush} from 'app/modules/admin/activity/types/activity-push.type';
+import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ActivityService {
     baseApiUrl = `${environment.apiUrl}/activities`;
+    baseApiUrlActivityType = `${environment.apiUrl}/activityTypes`;
 
     constructor(private http: HttpClient) {}
 
@@ -27,5 +29,9 @@ export class ActivityService {
 
     deleteActivity(activityId: number): Observable<any> {
         return this.http.delete<any>(`${this.baseApiUrl}/${activityId}`);
+    }
+
+    getActivityTypes(): Observable<ActivityType[]> {
+        return this.http.get<ActivityType[]>(this.baseApiUrlActivityType);
     }
 }

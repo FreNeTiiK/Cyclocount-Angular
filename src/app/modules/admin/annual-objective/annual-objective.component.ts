@@ -1,6 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from 'app/core/storage/storage.service';
-import {AuthService} from 'app/core/auth/auth.service';
 import {Title} from '@angular/platform-browser';
 import {ToastrService} from 'ngx-toastr';
 import {AnnualObjectiveService} from 'app/modules/admin/annual-objective/services/annual-objective.service';
@@ -31,7 +30,6 @@ export class AnnualObjectiveComponent implements OnInit {
     flashMessage: 'success' | 'error' | null = null;
 
     constructor(
-        public auth: AuthService,
         private annualObjective: AnnualObjectiveService,
         private storageService: StorageService,
         private toastr: ToastrService,
@@ -45,14 +43,12 @@ export class AnnualObjectiveComponent implements OnInit {
     ngOnInit(): void
     {
         this.selectedAnnualObjectiveForm = this.formBuilder.group({
-            id: [null, Validators.required],
             name: [null, Validators.required],
             quantity: [null, Validators.required],
             type_objective: [null, Validators.required],
         });
 
         this.createAnnualObjectiveForm = this.formBuilder.group({
-            id: [null, Validators.required],
             name: [null, Validators.required],
             quantity: [null, Validators.required],
             type_objective_id: [null, Validators.required],

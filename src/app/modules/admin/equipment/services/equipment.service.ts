@@ -12,7 +12,25 @@ export class EquipmentService {
 
     constructor(private http: HttpClient) {}
 
-    getEquipmentsByUser(userId: number): Observable<Equipment[]> {
-        return this.http.get<Equipment[]>(`${this.baseApiUrl}/${userId}`);
+    getEquipmentsByUser(userId: number, activityTypeId?: number): Observable<Equipment[]> {
+        let url = `${this.baseApiUrl}/${userId}`;
+
+        if(activityTypeId) {
+            url += `/${activityTypeId}`;
+        }
+
+        return this.http.get<Equipment[]>(url);
+    }
+
+    createEquipment(equipment: any): Observable<any> {
+        return this.http.post<any>(`${this.baseApiUrl}`, equipment);
+    }
+
+    updateEquipment(equipmentId: number, equipment: any): Observable<any> {
+        return this.http.put<any>(`${this.baseApiUrl}/${equipmentId}`, equipment);
+    }
+
+    deleteEquipment(equipmentId: number): Observable<any> {
+        return this.http.delete<any>(`${this.baseApiUrl}/${equipmentId}`);
     }
 }
