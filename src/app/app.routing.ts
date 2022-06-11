@@ -46,7 +46,7 @@ export const appRoutes: Route[] = [
                 loadChildren: () => import('app/modules/admin/statistic/statistic.module').then(m => m.StatisticModule),
             },
             {
-                // Equipment
+                // Equipments
                 path: 'equipments',
                 loadChildren: () => import('app/modules/admin/equipment/equipment.module').then(m => m.EquipmentModule),
             },
@@ -55,11 +55,16 @@ export const appRoutes: Route[] = [
                 path: 'annualObjectives',
                 loadChildren: () => import('app/modules/admin/annual-objective/annual-objective.module').then(m => m.AnnualObjectiveModule),
             },
-            /*{
+            {
+                // Profile
+                path: 'profile',
+                loadChildren: () => import('app/layout/common/profile/profile.module').then(m => m.ProfileModule)
+            },
+            {
                 // Settings
                 path: 'settings',
                 loadChildren: () => import('app/layout/common/settings/settings.module').then(m => m.SettingsModule)
-            },*/
+            },
         ]
     },
     // Catch unknown path & redirect

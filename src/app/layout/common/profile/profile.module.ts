@@ -4,19 +4,19 @@ import {Route, RouterModule} from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FuseDrawerModule } from '@fuse/components/drawer';
+import { ProfileComponent } from 'app/layout/common/profile/profile.component';
 import { MatButtonModule } from '@angular/material/button';
-import {SettingsComponent} from 'app/layout/common/settings/settings.component';
 
 const settingsRoutes: Route[] = [
     {
         path     : '',
-        component: SettingsComponent
+        component: ProfileComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        SettingsComponent
+        ProfileComponent
     ],
     imports     : [
         CommonModule,
@@ -27,9 +27,9 @@ const settingsRoutes: Route[] = [
         MatButtonModule
     ],
     exports     : [
-        SettingsComponent
+        ProfileComponent
     ]
 })
-export class SettingsModule
+export class ProfileModule
 {
 }

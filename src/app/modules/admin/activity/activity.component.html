@@ -50,7 +50,7 @@
                     <ng-container *ngIf="activities">
                         <ng-container *ngIf="activities.length > 0; else noActivities">
                             <ng-container *ngFor="let activity of activities;">
-                                <div class="activities-grid grid items-center text-base gap-4 py-2 px-6 md:px-8 border-b">
+                                <div class="activities-grid grid items-center gap-4 py-2 px-6 md:px-8 border-b">
                                     <!-- Date -->
                                     <div>
                                         {{moment(activity.departure_time).isValid() ? moment(activity.departure_time).format('DD/MM/YYYY') : ''}}
