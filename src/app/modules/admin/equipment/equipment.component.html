@@ -37,7 +37,7 @@
                         <input matInput
                                placeholder="Nom"
                                [formControlName]="'name'"
-                               #nameField>
+                               #nameFieldAdd>
                     </mat-form-field>
                 </div>
 
@@ -118,32 +118,44 @@
                             <ul class="list-disc pt-3 pl-10">
                                 <form [formGroup]="selectedEquipmentForm" *ngFor="let equipment of findActivityTypeEquipments(activityType)">
                                     <li>
-                                        <div class="flex flex-auto justify-between items-center w-fit" *ngIf="selectedEquipment === equipment">
-                                            <mat-form-field class="fuse-mat-no-subscript text-lg font-medium w-full">
-                                                <input matInput
-                                                       placeholder="Nom"
-                                                       [formControlName]="'name'"
-                                                       #nameField>
-                                            </mat-form-field>
+                                        <div class="flex flex-auto justify-between items-center item-line w-1/4">
+                                            <div class="flex flex-auto items-center w-fit" *ngIf="selectedEquipment === equipment" #editField>
+                                                <mat-form-field class="fuse-mat-no-subscript font-medium w-50">
+                                                    <input matInput
+                                                           placeholder="Nom"
+                                                           [formControlName]="'name'"
+                                                           (keydown.enter)="saveEdit()"
+                                                           (keydown.escape)="selectedEquipment = null; selectedEquipmentForm.reset()"
+                                                           #nameField>
+                                                </mat-form-field>
 
-                                            <div class="flex flex-col">
-                                                <mat-icon
-                                                    (click)="selectedEquipment = null; selectedEquipmentForm.reset()"
-                                                    class="icon-size-5 ml-5 cursor-pointer"
-                                                    [matTooltip]="'Annuler'"
-                                                    [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                                                <mat-icon
-                                                    (click)="saveEdit()"
-                                                    class="icon-size-5 ml-5 cursor-pointer"
-                                                    [matTooltip]="'Sauvegarder'"
-                                                    [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                                <div class="flex flex-col">
+                                                    <mat-icon
+                                                        (click)="selectedEquipment = null; selectedEquipmentForm.reset()"
+                                                        class="icon-size-5 ml-2 cursor-pointer"
+                                                        [matTooltip]="'Annuler'"
+                                                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                                                    <mat-icon
+                                                        (click)="saveEdit()"
+                                                        class="icon-size-5 ml-2 cursor-pointer"
+                                                        [matTooltip]="'Sauvegarder'"
+                                                        [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div
-                                            class="flex flex-auto justify-between items-center text-lg font-medium p-1.5 rounded hover:bg-gray-800 hover:bg-opacity-5 hover:dark:bg-white hover:dark:bg-opacity-12 w-fit"
-                                            *ngIf="selectedEquipment !== equipment"
-                                            (click)="editEquipment(equipment)">
-                                            {{equipment.name}}
+
+                                            <div
+                                                class="no-edit items-center text-lg font-medium p-1.5 rounded hover:bg-gray-800 hover:bg-opacity-5 hover:dark:bg-white hover:dark:bg-opacity-12 w-fit"
+                                                *ngIf="selectedEquipment !== equipment"
+                                                (click)="editEquipment(equipment)">
+                                                {{equipment.name}}
+                                            </div>
+
+                                            <mat-icon
+                                                class="hidden icon-size-5 cursor-pointer delete"
+                                                (click)="deleteSelectedEquipment(equipment.id)"
+                                                [matTooltip]="'Supprimer'"
+                                                svgIcon="heroicons_outline:trash">
+                                            </mat-icon>
                                         </div>
                                     </li>
                                 </form>

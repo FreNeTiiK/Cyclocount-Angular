@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {StorageService} from 'app/core/storage/storage.service';
 import {Title} from '@angular/platform-browser';
 import {ToastrService} from 'ngx-toastr';
@@ -15,9 +15,11 @@ import {FuseConfirmationService} from '@fuse/services/confirmation';
     templateUrl: './annual-objective.component.html',
     styleUrls: ['./annual-objective.component.scss']
 })
-export class AnnualObjectiveComponent implements OnInit {
-    @ViewChild('nameField') nameField: ElementRef;
-    @ViewChild('qtyField') qtyField: ElementRef;
+export class AnnualObjectiveComponent implements OnInit, AfterViewInit {
+    @ViewChild('nameField', {read: ElementRef}) nameField: ElementRef;
+    @ViewChild('qtyField', {read: ElementRef}) qtyField: ElementRef;
+    @ViewChild('editNameField', {read: ElementRef}) editNameField: ElementRef;
+    @ViewChild('editQtyField', {read: ElementRef}) editQtyField: ElementRef;
     typeObjectives: TypeObjective[];
     annualObjectives: AnnualObjective[];
     selectedAnnualObjective: AnnualObjective | null;
@@ -35,6 +37,7 @@ export class AnnualObjectiveComponent implements OnInit {
         private toastr: ToastrService,
         private formBuilder: FormBuilder,
         private title: Title,
+        private renderer2: Renderer2,
         private fuseConfirmationService: FuseConfirmationService,
     ) {
         this.title.setTitle('Objectifs annuels - Cyclocount');
@@ -56,6 +59,22 @@ export class AnnualObjectiveComponent implements OnInit {
 
         this.getAnnualObjectives();
         this.getTypeObjectives();
+    }
+
+    ngAfterViewInit(): void
+    {
+        this.renderer2.listen('window', 'click',(e: Event) => {
+            if (this.selectedAnnualObjective && this.selectedField) {
+                const target = (e.target as HTMLElement);
+
+                if (((this.editNameField && !this.editNameField.nativeElement.contains(target)) || (this.editQtyField && !this.editQtyField.nativeElement.contains(target)))
+                    && !target.classList.contains('no-edit')
+                ) {
+                    this.selectedAnnualObjective = null;
+                    this.selectedAnnualObjectiveForm.reset();
+                }
+            }
+        });
     }
 
     getAnnualObjectives(): void

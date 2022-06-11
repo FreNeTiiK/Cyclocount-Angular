@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {StorageService} from 'app/core/storage/storage.service';
 import {Title} from '@angular/platform-browser';
 import {ToastrService} from 'ngx-toastr';
@@ -17,9 +17,12 @@ import {FuseMediaWatcherService} from '@fuse/services/media-watcher';
     templateUrl: './equipment.component.html',
     styleUrls: ['./equipment.component.scss']
 })
-export class EquipmentComponent implements OnInit {
+export class EquipmentComponent implements OnInit,AfterViewInit {
+    @ViewChild('nameFieldAdd') nameFieldAdd: ElementRef;
     @ViewChild('nameField') nameField: ElementRef;
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
+    @ViewChild('editField', {read: ElementRef}) editField: ElementRef;
+    @ViewChild('equipmentLabel', {read: ElementRef}) equipmentLabel: ElementRef;
     drawerMode: 'side' | 'over';
     equipments: Equipment[];
     activityTypes: ActivityType[];
@@ -39,6 +42,7 @@ export class EquipmentComponent implements OnInit {
         private formBuilder: FormBuilder,
         private fuseConfirmationService: FuseConfirmationService,
         private title: Title,
+        private renderer2: Renderer2,
         private fuseMediaWatcherService: FuseMediaWatcherService
     ) {
         this.title.setTitle('Équipements - Cyclocount');
@@ -67,6 +71,22 @@ export class EquipmentComponent implements OnInit {
 
         this.getEquipments();
         this.getActivityTypes();
+    }
+
+    ngAfterViewInit(): void
+    {
+        this.renderer2.listen('window', 'click',(e: Event) => {
+            if (this.selectedEquipment) {
+                const target = (e.target as HTMLElement);
+
+                if (!this.editField.nativeElement.contains(target) &&
+                    !target.classList.contains('no-edit')
+                ) {
+                    this.selectedEquipment = null;
+                    this.selectedEquipmentForm.reset();
+                }
+            }
+        });
     }
 
     getEquipments(): void
@@ -162,7 +182,7 @@ export class EquipmentComponent implements OnInit {
         this.addingMode = true;
         this.createEquipmentForm.reset();
         setTimeout(() => {
-            this.nameField.nativeElement.focus();
+            this.nameFieldAdd.nativeElement.focus();
         }, 100);
     }
 
