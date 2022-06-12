@@ -21,7 +21,7 @@
             </fuse-alert>
 
             <!-- Sign in form -->
-            <form class="mt-8" [formGroup]="loginForm">
+            <form class="mt-8" [formGroup]="signInForm">
                 <!-- Username field -->
                 <mat-form-field class="w-full">
                     <mat-label>Nom d'utilisateur</mat-label>
@@ -66,13 +66,13 @@
                     class="fuse-mat-button-large w-full mt-6"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="loginForm.disabled || loginForm.invalid"
+                    [disabled]="signInForm.disabled || signInForm.invalid"
                     (click)="signIn()">
-                    <span *ngIf="loginForm.enabled">
+                    <span *ngIf="signInForm.enabled">
                         Se connecter
                     </span>
                     <mat-progress-spinner
-                        *ngIf="loginForm.disabled"
+                        *ngIf="signInForm.disabled"
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>

@@ -18,7 +18,7 @@ import {User} from 'app/core/user/types/user.type';
     animations   : fuseAnimations
 })
 export class SignInComponent implements OnInit {
-    loginForm!: FormGroup;
+    signInForm!: FormGroup;
     alert: { type: FuseAlertType; message: string };
     showAlert: boolean = false;
     redirectURL: string | undefined;
@@ -40,7 +40,7 @@ export class SignInComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loginForm = this.formBuilder.group({
+        this.signInForm = this.formBuilder.group({
             'username': ['', Validators.required],
             'password': ['', Validators.required]
         });
@@ -48,13 +48,13 @@ export class SignInComponent implements OnInit {
 
     signIn(): void {
         // Return if the form is invalid
-        if (this.loginForm.invalid)
+        if (this.signInForm.invalid)
         {
             return;
         }
 
         // Disable the form
-        this.loginForm.disable();
+        this.signInForm.disable();
 
         // Hide the alert
         this.showAlert = false;
@@ -64,7 +64,7 @@ export class SignInComponent implements OnInit {
             this.redirectURL = params['redirectURL'];
         }
 
-        const credentials = this.loginForm.value;
+        const credentials = this.signInForm.value;
         this.auth.signIn(credentials).subscribe({
             next: (res: any) => {
                 if (res.token) {
@@ -72,7 +72,7 @@ export class SignInComponent implements OnInit {
                     this.getUser(credentials.username);
                     this.redirectURL ? this.router.navigateByUrl(this.redirectURL).catch(() => this.router.navigate(['home'])) : this.router.navigate(['home']);
                 } else {
-                    this.loginForm.enable();
+                    this.signInForm.enable();
 
                     // Set the alert
                     this.alert = {
@@ -86,7 +86,7 @@ export class SignInComponent implements OnInit {
             },
             error: () => {
                 // Re-enable the form
-                this.loginForm.enable();
+                this.signInForm.enable();
 
                 // Set the alert
                 this.alert = {
