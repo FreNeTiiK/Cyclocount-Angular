@@ -1,4 +1,4 @@
-import {User} from 'app/core/user/user.type';
+import {User} from 'app/core/user/types/user.type';
 import {TypeObjective} from 'app/modules/admin/annual-objective/types/type-objective.type';
 
 export interface AnnualObjective {

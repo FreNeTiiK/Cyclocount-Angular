@@ -16,8 +16,8 @@ export class AuthService {
               private storage: StorageService
     ) { }
 
-    loginUser(user: any): Observable<any> {
-        return this.http.post<any>(this._loginUrl, user);
+    loginUser(user: {username: string; password: string}): Observable<{token: string}> {
+        return this.http.post<{token: string}>(this._loginUrl, user);
     }
 
     loggedIn(): boolean {

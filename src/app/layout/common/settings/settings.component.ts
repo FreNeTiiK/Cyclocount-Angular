@@ -1,10 +1,7 @@
-import {Component, Inject, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import { Router } from '@angular/router';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
-import { FuseConfigService } from '@fuse/services/config';
-import {AppConfig, Scheme, Theme} from 'app/core/config/app.config';
 import {FuseMediaWatcherService} from '@fuse/services/media-watcher';
-import {DOCUMENT} from '@angular/common';
+import {MatDrawer} from '@angular/material/sidenav';
 
 @Component({
     selector     : 'settings',
@@ -13,19 +10,20 @@ import {DOCUMENT} from '@angular/common';
 })
 export class SettingsComponent implements OnInit, OnDestroy
 {
-    config: AppConfig;
+    @ViewChild('drawer') drawer: MatDrawer;
+    drawerMode: 'over' | 'side' = 'side';
+    drawerOpened: boolean = true;
+    panels: any[] = [];
+    selectedPanel: string = 'account';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
      */
     constructor(
-        @Inject(DOCUMENT) private _document: any,
-        private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _router: Router,
-        private _fuseConfigService: FuseConfigService
-    )
-    {}
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseMediaWatcherService: FuseMediaWatcherService
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -36,13 +34,47 @@ export class SettingsComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Subscribe to config changes
-        this._fuseConfigService.config$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((config: AppConfig) => {
+        // Setup available panels
+        this.panels = [
+            {
+                id         : 'account',
+                icon       : 'heroicons_outline:user-circle',
+                title      : 'Compte',
+                description: 'Gérez vos informations personnelles'
+            },
+            {
+                id         : 'security',
+                icon       : 'heroicons_outline:lock-closed',
+                title      : 'Sécurité',
+                description: 'Gérez votre mot de passe'
+            },
+            {
+                id         : 'application',
+                icon       : 'heroicons_outline:credit-card',
+                title      : 'Application',
+                description: 'Gérez les thèmes de l\'application'
+            },
+        ];
 
-                // Store the config
-                this.config = config;
+        // Subscribe to media changes
+        this._fuseMediaWatcherService.onMediaChange$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(({matchingAliases}) => {
+
+                // Set the drawerMode and drawerOpened
+                if ( matchingAliases.includes('lg') )
+                {
+                    this.drawerMode = 'side';
+                    this.drawerOpened = true;
+                }
+                else
+                {
+                    this.drawerMode = 'over';
+                    this.drawerOpened = false;
+                }
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
             });
     }
 
@@ -61,24 +93,39 @@ export class SettingsComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Set the scheme on the config
+     * Navigate to the panel
      *
-     * @param scheme
+     * @param panel
      */
-    setScheme(scheme: Scheme): void
+    goToPanel(panel: string): void
     {
-        localStorage.setItem('scheme', scheme);
-        this._fuseConfigService.config = {scheme};
+        this.selectedPanel = panel;
+
+        // Close the drawer on 'over' mode
+        if ( this.drawerMode === 'over' )
+        {
+            this.drawer.close();
+        }
     }
 
     /**
-     * Set the theme on the config
+     * Get the details of the panel
      *
-     * @param theme
+     * @param id
      */
-    setTheme(theme: Theme): void
+    getPanelInfo(id: string): any
     {
-        localStorage.setItem('theme', theme);
-        this._fuseConfigService.config = {theme};
+        return this.panels.find(panel => panel.id === id);
+    }
+
+    /**
+     * Track by function for ngFor loops
+     *
+     * @param index
+     * @param item
+     */
+    trackByFn(index: number, item: any): any
+    {
+        return item.id || index;
     }
 }

@@ -1,0 +1,120 @@
+<div class="w-full max-w-3xl p-6">
+
+    <!-- Form -->
+    <form [formGroup]="accountForm">
+
+        <!-- Section -->
+        <div class="grid sm:grid-cols-4 gap-6 w-full">
+            <!-- First Name -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Prénom</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'first_name'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Last Name -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Nom</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'last_name'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Username -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Nom d'utilisateur</mat-label>
+                    <input
+                        [formControlName]="'username'"
+                        matInput>
+                </mat-form-field>
+                <div class="mt-1 text-md text-hint">La modification nécessite une reconnexion.</div>
+            </div>
+            <!-- Birthday -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Date de naissance</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden sm:flex icon-size-5"
+                        [svgIcon]="'heroicons_solid:cake'"></mat-icon>
+                    <input
+                        matInput
+                        [matDatepicker]="birthdayDatepicker"
+                        [formControlName]="'birthday'"
+                        [placeholder]="'Date de naissance'">
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="birthdayDatepicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #birthdayDatepicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <!-- Birthday -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Address</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden sm:flex icon-size-5"
+                        [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                    <input
+                        matInput
+                        [formControlName]="'address'"
+                        [placeholder]="'Address'">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="mt-11 mb-10 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex justify-between">
+            <div class="flex items-center mr-4">
+                <ng-container *ngIf="flashMessage === 'success'">
+                    <mat-icon
+                        class="text-green-500"
+                        [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                    <span class="ml-2" *ngIf="message">{{message}}</span>
+                    <span class="ml-2" *ngIf="!message">Mise à jour réussite</span>
+                </ng-container>
+                <ng-container *ngIf="flashMessage === 'error'">
+                    <mat-icon
+                        class="text-red-500"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                    <span class="ml-2" *ngIf="message">{{message}}</span>
+                    <span class="ml-2" *ngIf="!message">Une erreur s'est produite, réessayez !</span>
+                </ng-container>
+            </div>
+
+            <div class="flex items-center justify-end">
+                <button
+                    mat-stroked-button
+                    (click)="accountForm.patchValue(user)">
+                    Annuler
+                </button>
+                <button
+                    class="ml-4"
+                    mat-flat-button
+                    [disabled]="accountForm.invalid"
+                    [color]="'primary'"
+                    (click)="saveUser()">
+                    Sauvegarder
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

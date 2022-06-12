@@ -4,7 +4,7 @@ import {Title} from '@angular/platform-browser';
 import {ToastrService} from 'ngx-toastr';
 import {AnnualObjectiveService} from 'app/modules/admin/annual-objective/services/annual-objective.service';
 import {TypeObjective} from 'app/modules/admin/annual-objective/types/type-objective.type';
-import {User} from 'app/core/user/user.type';
+import {User} from 'app/core/user/types/user.type';
 import {AnnualObjective} from './types/annual-objective.type';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AnnualObjectivePush} from './types/annual-objective-push.type';

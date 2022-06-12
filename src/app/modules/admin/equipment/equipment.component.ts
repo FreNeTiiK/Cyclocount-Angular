@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from
 import {StorageService} from 'app/core/storage/storage.service';
 import {Title} from '@angular/platform-browser';
 import {ToastrService} from 'ngx-toastr';
-import {User} from 'app/core/user/user.type';
+import {User} from 'app/core/user/types/user.type';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Equipment} from 'app/modules/admin/equipment/types/equipment.type';
 import {EquipmentService} from './services/equipment.service';

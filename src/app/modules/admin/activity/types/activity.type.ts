@@ -1,4 +1,4 @@
-import {User} from 'app/core/user/user.type';
+import {User} from 'app/core/user/types/user.type';
 import {Equipment} from 'app/modules/admin/equipment/types/equipment.type';
 import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type';
 

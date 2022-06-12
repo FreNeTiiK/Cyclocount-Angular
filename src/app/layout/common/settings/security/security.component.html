@@ -1,0 +1,82 @@
+<div class="w-full max-w-3xl">
+
+    <!-- Form -->
+    <form [formGroup]="securityForm">
+
+        <!-- Section -->
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Current password -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Mot de passe actuel</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:key'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'current_password'"
+                        type="password"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- New password -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Nouveau mot de passe</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:key'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'new_password'"
+                        type="password"
+                        matInput>
+                    <mat-error *ngIf="securityForm.get('new_password').hasError('required') || securityForm.get('new_password').hasError('minlength')">
+                        Le mot de passe doit contenir minimum 4 caractères.
+                    </mat-error>
+                </mat-form-field>
+                <div class="mt-1 text-md text-hint">Il est conseillé d'inclure des nombres, des lettres et des caractères spéciaux.</div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex justify-between">
+            <div class="flex items-center mr-4">
+                <ng-container *ngIf="flashMessage === 'success'">
+                    <mat-icon
+                        class="text-green-500"
+                        [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                    <span class="ml-2" *ngIf="message">{{message}}</span>
+                    <span class="ml-2" *ngIf="!message">Mise à jour réussite</span>
+                </ng-container>
+                <ng-container *ngIf="flashMessage === 'error'">
+                    <mat-icon
+                        class="text-red-500"
+                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                    <span class="ml-2" *ngIf="message">{{message}}</span>
+                    <span class="ml-2" *ngIf="!message">Une erreur s'est produite, réessayez !</span>
+                </ng-container>
+            </div>
+
+            <div class="flex items-center justify-end">
+                <button
+                    mat-stroked-button
+                    (click)="securityForm.reset()">
+                    Annuler
+                </button>
+                <button
+                    class="ml-4"
+                    mat-flat-button
+                    [disabled]="securityForm.invalid"
+                    [color]="'primary'"
+                    (click)="changePassword()">
+                    Sauvegarder
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

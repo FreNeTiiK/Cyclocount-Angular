@@ -6,7 +6,7 @@ import {AuthService} from 'app/core/auth/auth.service';
 import {Title} from '@angular/platform-browser';
 import {ToastrService} from 'ngx-toastr';
 import {ActivityService} from 'app/modules/admin/activity/services/activity.service';
-import {User} from 'app/core/user/user.type';
+import {User} from 'app/core/user/types/user.type';
 import {Activity} from 'app/modules/admin/activity/types/activity.type';
 import {customPaginator} from 'app/core/utils/customPaginator';
 import moment from 'moment';
