@@ -113,56 +113,55 @@
                 <ng-container *ngIf="activityTypes">
                     <div class="py-8 px-15" *ngFor="let activityType of activityTypes">
                         <div class="text-4xl font-bold tracking-tight pb-3">{{activityType.name}}</div>
+                            <ng-container *ngIf="equipments && equipments.length > 0 && findActivityTypeEquipments(activityType).length > 0; else noEquipments">
+                                <ul class="list-disc pt-3 pl-10">
+                                    <form [formGroup]="selectedEquipmentForm" *ngFor="let equipment of findActivityTypeEquipments(activityType)">
+                                        <li>
+                                            <div class="flex flex-auto justify-between items-center item-line md:w-1/4">
+                                                <div class="flex flex-auto items-center w-fit" *ngIf="selectedEquipment === equipment" #editField>
+                                                    <mat-form-field class="fuse-mat-no-subscript font-medium w-50">
+                                                        <input matInput
+                                                               placeholder="Nom"
+                                                               [formControlName]="'name'"
+                                                               (keydown.enter)="saveEdit()"
+                                                               (keydown.escape)="selectedEquipment = null; selectedEquipmentForm.reset()"
+                                                               #nameField>
+                                                    </mat-form-field>
 
-                        <ng-container *ngIf="equipments; else noEquipments">
-                            <ul class="list-disc pt-3 pl-10">
-                                <form [formGroup]="selectedEquipmentForm" *ngFor="let equipment of findActivityTypeEquipments(activityType)">
-                                    <li>
-                                        <div class="flex flex-auto justify-between items-center item-line md:w-1/4">
-                                            <div class="flex flex-auto items-center w-fit" *ngIf="selectedEquipment === equipment" #editField>
-                                                <mat-form-field class="fuse-mat-no-subscript font-medium w-50">
-                                                    <input matInput
-                                                           placeholder="Nom"
-                                                           [formControlName]="'name'"
-                                                           (keydown.enter)="saveEdit()"
-                                                           (keydown.escape)="selectedEquipment = null; selectedEquipmentForm.reset()"
-                                                           #nameField>
-                                                </mat-form-field>
-
-                                                <div class="flex flex-col">
-                                                    <mat-icon
-                                                        (click)="selectedEquipment = null; selectedEquipmentForm.reset()"
-                                                        class="icon-size-5 ml-2 cursor-pointer"
-                                                        [matTooltip]="'Annuler'"
-                                                        [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                                                    <mat-icon
-                                                        (click)="saveEdit()"
-                                                        class="icon-size-5 ml-2 cursor-pointer"
-                                                        [matTooltip]="'Sauvegarder'"
-                                                        [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                                    <div class="flex flex-col">
+                                                        <mat-icon
+                                                            (click)="selectedEquipment = null; selectedEquipmentForm.reset()"
+                                                            class="icon-size-5 ml-2 cursor-pointer"
+                                                            [matTooltip]="'Annuler'"
+                                                            [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                                                        <mat-icon
+                                                            (click)="saveEdit()"
+                                                            class="icon-size-5 ml-2 cursor-pointer"
+                                                            [matTooltip]="'Sauvegarder'"
+                                                            [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div
-                                                class="no-edit items-center text-lg font-medium p-1.5 rounded hover:bg-gray-800 hover:bg-opacity-5 hover:dark:bg-white hover:dark:bg-opacity-12 w-fit"
-                                                *ngIf="selectedEquipment !== equipment"
-                                                (click)="editEquipment(equipment)">
-                                                {{equipment.name}}
-                                            </div>
+                                                <div
+                                                    class="no-edit items-center text-lg font-medium p-1.5 rounded hover:bg-gray-800 hover:bg-opacity-5 hover:dark:bg-white hover:dark:bg-opacity-12 w-fit"
+                                                    *ngIf="selectedEquipment !== equipment"
+                                                    (click)="editEquipment(equipment)">
+                                                    {{equipment.name}}
+                                                </div>
 
-                                            <mat-icon
-                                                class="md:hidden icon-size-5 cursor-pointer delete"
-                                                (click)="deleteSelectedEquipment(equipment.id)"
-                                                [matTooltip]="'Supprimer'"
-                                                svgIcon="heroicons_outline:trash">
-                                            </mat-icon>
-                                        </div>
-                                    </li>
-                                </form>
-                            </ul>
-                        </ng-container>
+                                                <mat-icon
+                                                    class="md:hidden icon-size-5 cursor-pointer delete"
+                                                    (click)="deleteSelectedEquipment(equipment.id)"
+                                                    [matTooltip]="'Supprimer'"
+                                                    svgIcon="heroicons_outline:trash">
+                                                </mat-icon>
+                                            </div>
+                                        </li>
+                                    </form>
+                                </ul>
+                            </ng-container>
                         <ng-template #noEquipments>
-                            <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">Aucun équipement trouvé !</div>
+                            <div class=" pt-3 pl-10 font-semibold tracking-tight ">Aucun équipement trouvé !</div>
                         </ng-template>
                     </div>
                 </ng-container>

@@ -19,9 +19,14 @@ export const appRoutes: Route[] = [
         },
         children: [
             {
-                path: 'login',
-                loadChildren: () => import('app/modules/auth/login/login.module').then(m => m.LoginModule)
+                path: 'sign-in',
+                loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.SignInModule)
             },
+            {
+                path: 'sign-up',
+                loadChildren: () => import('app/modules/auth/sign-up/sign-up.module').then(m => m.SignUpModule)
+            }
+
         ]
     },
     {

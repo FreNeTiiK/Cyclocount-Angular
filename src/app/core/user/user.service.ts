@@ -22,6 +22,10 @@ export class UserService
         return this._httpClient.get<User>(`${this.baseApiUrl}/${username}`);
     }
 
+    checkIfUsernameExists(username: string): Observable<boolean> {
+        return this._httpClient.get<boolean>(`${this.baseApiUrl}/checkUsername/${username}`);
+    }
+
     updateUser(userId: number, user: UserUpdate): Observable<UserUpdate> {
         return this._httpClient.put<UserUpdate>(`${this.baseApiUrl}/${userId}`, user);
     }

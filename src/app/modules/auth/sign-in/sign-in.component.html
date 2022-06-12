@@ -2,7 +2,13 @@
     <div class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
             <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Connexion</div>
-
+            <div class="flex items-baseline mt-0.5 font-medium text-base">
+                <div>Vous n'avez pas de compte ?</div>
+                <a
+                    class="ml-1 text-primary-500 hover:underline"
+                    [routerLink]="['/sign-up']">Inscrivez-vous
+                </a>
+            </div>
             <!-- Alert -->
             <fuse-alert
                 class="mt-8 -mb-4"
@@ -60,10 +66,10 @@
                     class="fuse-mat-button-large w-full mt-6"
                     mat-flat-button
                     [color]="'primary'"
-                    [disabled]="loginForm.disabled"
-                    (click)="loginUser()">
+                    [disabled]="loginForm.disabled || loginForm.invalid"
+                    (click)="signIn()">
                     <span *ngIf="loginForm.enabled">
-                        Connexion
+                        Se connecter
                     </span>
                     <mat-progress-spinner
                         *ngIf="loginForm.disabled"

@@ -1,7 +1,13 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AuthService} from 'app/core/auth/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    FormBuilder,
+    FormGroup,
+    Validators
+} from '@angular/forms';
 import {StorageService} from 'app/core/storage/storage.service';
 import {Title} from '@angular/platform-browser';
 import {FuseAlertType} from '@fuse/components/alert';
@@ -9,19 +15,20 @@ import {fuseAnimations} from '@fuse/animations';
 import {UserService} from 'app/core/user/user.service';
 import {CommunicationService} from 'app/core/communication/communication.service';
 import {User} from 'app/core/user/types/user.type';
+import {map, Observable} from 'rxjs';
+import moment from "moment";
 
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
+    selector: 'app-sign-in',
+    templateUrl: './sign-up.component.html',
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
-export class LoginComponent implements OnInit {
-    loginForm!: FormGroup;
+export class SignUpComponent implements OnInit {
+    signUpForm: FormGroup;
     alert: { type: FuseAlertType; message: string };
     showAlert: boolean = false;
-    redirectURL: string | undefined;
 
     constructor(
         public auth: AuthService,
@@ -39,40 +46,43 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    ngOnInit(): void {
-        this.loginForm = this.formBuilder.group({
-            'username': ['', Validators.required],
-            'password': ['', Validators.required]
+    ngOnInit(): void
+    {
+        this.signUpForm = this.formBuilder.group({
+            'first_name': [null, Validators.required],
+            'last_name': [null, Validators.required],
+            'username': [null, Validators.required, this.checkUsernameIsTaken()],
+            'password': [null, [Validators.required, Validators.minLength(4)]],
+            'birthday': [null],
+            'address': [null],
         });
     }
 
-    loginUser(): void {
-        // Return if the form is invalid
-        if (this.loginForm.invalid)
+    signUp(): void
+    {
+        // Do nothing if the form is invalid
+        if ( this.signUpForm.invalid )
         {
             return;
         }
 
         // Disable the form
-        this.loginForm.disable();
+        this.signUpForm.disable();
 
         // Hide the alert
         this.showAlert = false;
 
-        const params = this.route.snapshot.queryParams;
-        if (params['redirectURL']) {
-            this.redirectURL = params['redirectURL'];
-        }
+        this.formateFormDates();
 
-        const credentials = this.loginForm.value;
-        this.auth.loginUser(credentials).subscribe({
-            next: (res: any) => {
-                if (res.token) {
+        // Sign up
+        this.auth.signUp(this.signUpForm.getRawValue()).subscribe({
+            next: (res) => {
+                if (res.token && res.user) {
                     localStorage.setItem('token', res.token);
-                    this.getUser(credentials.username);
-                    this.redirectURL ? this.router.navigateByUrl(this.redirectURL).catch(() => this.router.navigate(['home'])) : this.router.navigate(['home']);
+                    this.storage.setInLocalStorage<User>('user', res.user);
+                    this.router.navigateByUrl('/home');
                 } else {
-                    this.loginForm.enable();
+                    this.signUpForm.enable();
 
                     // Set the alert
                     this.alert = {
@@ -84,14 +94,15 @@ export class LoginComponent implements OnInit {
                     this.showAlert = true;
                 }
             },
-            error: () => {
+            error: (err) => {
+                console.log(err);
                 // Re-enable the form
-                this.loginForm.enable();
+                this.signUpForm.enable();
 
                 // Set the alert
                 this.alert = {
                     type   : 'error',
-                    message: 'Mauvais nom d\'utilisateur ou mot de passe'
+                    message: err.error.message || err.message
                 };
 
                 // Show the alert
@@ -100,12 +111,16 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    getUser(username: string): void {
-        this.userService.getUserByUsername(username).subscribe(
-            (user) => {
-                this.storage.setInLocalStorage<User>('user', user);
-                this.communicationService.callComponentMethod();
-            }
-        );
+    formateFormDates(): void
+    {
+        const birthdayFormValue = this.signUpForm.get('birthday').value;
+        this.signUpForm.patchValue({birthday: birthdayFormValue ? moment(birthdayFormValue).format('YYYY-MM-DD') : null});
+    }
+
+    checkUsernameIsTaken(): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<{usernameIsTaken: boolean}> =>
+            this.userService.checkIfUsernameExists(control.value).pipe(
+                map(user => user ? {usernameIsTaken: true} : null)
+            );
     }
 }

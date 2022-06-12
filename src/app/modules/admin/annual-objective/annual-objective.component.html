@@ -79,7 +79,7 @@
 
                 </div>
                 <!-- Rows -->
-                <ng-container *ngIf="annualObjectives; else noAnnualObjectives">
+                <ng-container *ngIf="annualObjectives && annualObjectives.length > 0; else noAnnualObjectives">
                     <ng-container *ngFor="let annualObjective of annualObjectives;">
                         <form class="form" [formGroup]="selectedAnnualObjectiveForm" *ngIf="annualObjective.id">
                             <div class="flex flex-row annual-objectives-table grid gap-15 items-center py-1.5 px-6 md:px-8 border-b">

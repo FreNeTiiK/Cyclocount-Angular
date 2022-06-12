@@ -1,0 +1,163 @@
+<div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
+    <div class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+        <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Inscription</div>
+            <div class="flex items-baseline mt-0.5 font-medium text-base">
+                <div>Vous avez déjà un compte ?</div>
+                <a
+                    class="ml-1 text-primary-500 hover:underline"
+                    [routerLink]="['/sign-in']">Connectez-vous
+                </a>
+            </div>
+            <!-- Alert -->
+            <fuse-alert
+                class="mt-8 -mb-4"
+                *ngIf="showAlert"
+                [appearance]="'outline'"
+                [showIcon]="false"
+                [type]="alert.type"
+                [@shake]="alert.type === 'error'">
+                {{alert.message}}
+            </fuse-alert>
+
+            <!-- Sign up form -->
+            <form class="mt-8" [formGroup]="signUpForm">
+                <!-- First Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Prénom</mat-label>
+                    <input
+                        matInput
+                        [formControlName]="'first_name'">
+                    <mat-error *ngIf="signUpForm.get('first_name').hasError('required')">
+                        Prénom requis
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Last Name field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Nom</mat-label>
+                    <input
+                        matInput
+                        [formControlName]="'last_name'">
+                    <mat-error *ngIf="signUpForm.get('last_name').hasError('required')">
+                        Nom requis
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Username field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Nom d'utilisateur</mat-label>
+                    <input
+                        matInput
+                        [formControlName]="'username'">
+                    <mat-error *ngIf="signUpForm.get('username').hasError('required')">
+                        Nom d'utilisateur requis
+                    </mat-error>
+                    <mat-error *ngIf="signUpForm.get('username').hasError('usernameIsTaken')">
+                        Nom d'utilisateur déjà pris !
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Password field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Mot de passe</mat-label>
+                    <input
+                        matInput
+                        type="password"
+                        [formControlName]="'password'"
+                        #passwordField>
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                        matSuffix>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordField.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                    </button>
+                    <mat-error *ngIf="signUpForm.get('password').hasError('required') || signUpForm.get('password').hasError('minlength')">
+                        Le mot de passe doit contenir minimum 4 caractères
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Birthday field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Date de naissance</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden sm:flex icon-size-5"
+                        [svgIcon]="'heroicons_solid:cake'"></mat-icon>
+                    <input
+                        matInput
+                        [matDatepicker]="birthdayDatepicker"
+                        [formControlName]="'birthday'"
+                        [placeholder]="'Date de naissance'">
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="birthdayDatepicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #birthdayDatepicker></mat-datepicker>
+                </mat-form-field>
+
+                <!-- Address field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Adresse</mat-label>
+                    <input
+                        matInput
+                        [formControlName]="'address'">
+                </mat-form-field>
+
+                <!-- Submit button -->
+                <button
+                    class="fuse-mat-button-large w-full mt-6"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="signUpForm.disabled || signUpForm.invalid"
+                    (click)="signUp()">
+                    <span *ngIf="!signUpForm.disabled">
+                        S'inscrire
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="signUpForm.disabled"
+                        [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+
+    <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-l">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none"
+             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <!-- Dots -->
+        <svg class="absolute -top-16 -right-16 text-gray-700"
+             viewBox="0 0 220 192" width="220" height="192" fill="none">
+            <defs>
+                <pattern id="837c3e70-6c3a-44e6-8854-cc48c737b659" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="4" height="4" fill="currentColor"></rect>
+                </pattern>
+            </defs>
+            <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
+        </svg>
+        <!-- @formatter:on -->
+        <!-- Content -->
+        <div class="z-10 w-50 relative">
+            <img class="rounded-xl" src="../../assets/images/logo.png">
+        </div>
+    </div>
+</div>

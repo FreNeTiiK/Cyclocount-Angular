@@ -9,15 +9,20 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-    private _loginUrl = `${environment.apiUrl}` + '/login_check';
+    private signInUrl = `${environment.apiUrl}/login_check`;
+    private signUpUrl = `${environment.apiUrl}/register`;
 
     constructor(private http: HttpClient,
               private router: Router,
               private storage: StorageService
     ) { }
 
-    loginUser(user: {username: string; password: string}): Observable<{token: string}> {
-        return this.http.post<{token: string}>(this._loginUrl, user);
+    signIn(user: {username: string; password: string}): Observable<{token: string}> {
+        return this.http.post<{token: string}>(this.signInUrl, user);
+    }
+
+    signUp(user: any): Observable<any> {
+        return this.http.post<any>(this.signUpUrl, user);
     }
 
     loggedIn(): boolean {
@@ -30,6 +35,6 @@ export class AuthService {
 
     logout(): void {
         this.storage.clearSessionStorage();
-        this.router.navigate(['login']);
+        this.router.navigate(['sign-in']);
     }
 }

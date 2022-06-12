@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import {LoginComponent} from './login.component';
+import {SignInComponent} from './sign-in.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
@@ -12,13 +12,13 @@ import {FuseAlertModule} from '@fuse/components/alert';
 const loginRoutes: Route[] = [
     {
         path     : '',
-        component: LoginComponent
+        component: SignInComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        LoginComponent
+        SignInComponent
     ],
     imports: [
         RouterModule.forChild(loginRoutes),
@@ -31,6 +31,6 @@ const loginRoutes: Route[] = [
         SharedModule
     ]
 })
-export class LoginModule
+export class SignInModule
 {
 }

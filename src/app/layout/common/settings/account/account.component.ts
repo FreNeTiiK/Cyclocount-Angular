@@ -43,8 +43,8 @@ export class SettingsAccountComponent implements OnInit
             first_name    : [this.user.first_name, Validators.required],
             last_name    : [this.user.last_name, Validators.required],
             username: [this.user.username, Validators.required],
-            birthday   : [moment(this.user.birthday, 'YYYY-MM-DD'), Validators.required],
-            address   : [this.user.address, Validators.required],
+            birthday   : [moment(this.user.birthday, 'YYYY-MM-DD')],
+            address   : [this.user.address],
         });
     }
 
@@ -53,7 +53,6 @@ export class SettingsAccountComponent implements OnInit
         this.formateFormDates();
         const needNewToken = this.accountForm.get('username').value !== this.user.username;
 
-        console.log(this.accountForm.getRawValue());
         this.userService.updateUser(this.user.id, this.accountForm.getRawValue()).subscribe({
             next: (updatedUser) => {
                 this.showFlashMessage('success', 'Utilisateur modifié');
