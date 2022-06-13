@@ -16,6 +16,7 @@ import {EquipmentService} from 'app/modules/admin/equipment/services/equipment.s
 import {Equipment} from 'app/modules/admin/equipment/types/equipment.type';
 import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type';
 import {MatSelectChange} from '@angular/material/select';
+import {Difficulty} from "./types/difficulty.type";
 
 @Component({
     selector: 'app-activity',
@@ -31,6 +32,7 @@ export class ActivityComponent implements OnInit {
     dataSource = new MatTableDataSource<Activity>();
     activities: Activity[];
     activityTypes: ActivityType[];
+    difficulties: Difficulty[];
     equipments: Equipment[];
     moment: any = moment;
     selectedActivity: Activity | null = null;
@@ -60,11 +62,13 @@ export class ActivityComponent implements OnInit {
             user_id: [this.user.id, Validators.required],
             equipment_id: ['none'],
             activity_type_id: [null, Validators.required],
+            difficulty_id: [null],
             description: [null],
             departure_time: [null],
             arrival_time: [null],
-            speed_average: [null, Validators.required],
-            speed_max: [null, Validators.required],
+            distance: [null],
+            speed_average: [null],
+            speed_max: [null],
             height_difference: [null],
             power_average: [null],
             calories_consumed: [null]
@@ -73,6 +77,7 @@ export class ActivityComponent implements OnInit {
         this.getActivitiesTable();
         this.getEquipmentsByUser();
         this.getActivityTypes();
+        this.getDifficulties();
     }
 
     getActivitiesTable(): void
@@ -119,10 +124,25 @@ export class ActivityComponent implements OnInit {
         });
     }
 
+    getDifficulties(): void
+    {
+        this.activityService.getDifficulties().subscribe({
+            next: (difficulties) => {
+                this.difficulties = difficulties;
+            },
+            error: () => {
+                this.toastr.error('Il y a eu un problème');
+            }
+        });
+    }
+
     toggleDetails(activityId: number): void
     {
+        if (this.addingMode) {
+            this.cancelAdding();
+        }
         // If the activity is already selected...
-        if (this.selectedActivity && this.selectedActivity.id === activityId)
+        if (this.selectedActivity && this.selectedActivity?.id === activityId)
         {
             // Close the details
             this.closeDetails();
@@ -132,6 +152,7 @@ export class ActivityComponent implements OnInit {
         this.selectedActivity = this.activities.find(item => item.id === activityId) || null;
         this.selectedActivityForm.patchValue({user_id: this.selectedActivity.user_link.id});
         this.selectedActivityForm.patchValue({equipment_id: this.selectedActivity.equipment ? this.selectedActivity.equipment.id : 'none'});
+        this.selectedActivityForm.patchValue({difficulty_id: this.selectedActivity.difficulty.id});
         this.selectedActivityForm.patchValue({activity_type_id: this.selectedActivity.activity_type.id});
         this.selectedActivityForm.patchValue(this.selectedActivity);
     }
@@ -178,10 +199,12 @@ export class ActivityComponent implements OnInit {
             user_link: this.user,
             activity_type: null,
             equipment: null,
+            difficulty: null,
             title: null,
             description: null,
             departure_time: null,
             arrival_time: null,
+            distance: null,
             speed_average: null,
             speed_max: null,
             height_difference: null,

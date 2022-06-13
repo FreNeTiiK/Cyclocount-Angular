@@ -5,6 +5,7 @@ import {environment} from 'environments/environment';
 import {Activity} from 'app/modules/admin/activity/types/activity.type';
 import {ActivityPush} from 'app/modules/admin/activity/types/activity-push.type';
 import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type';
+import {Difficulty} from "../types/difficulty.type";
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +13,7 @@ import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type'
 export class ActivityService {
     baseApiUrl = `${environment.apiUrl}/activities`;
     baseApiUrlActivityType = `${environment.apiUrl}/activityTypes`;
+    baseApiUrlDifficulty = `${environment.apiUrl}/difficulties`;
 
     constructor(private http: HttpClient) {}
 
@@ -33,5 +35,9 @@ export class ActivityService {
 
     getActivityTypes(): Observable<ActivityType[]> {
         return this.http.get<ActivityType[]>(this.baseApiUrlActivityType);
+    }
+
+    getDifficulties(): Observable<Difficulty[]> {
+        return this.http.get<Difficulty[]>(this.baseApiUrlDifficulty);
     }
 }

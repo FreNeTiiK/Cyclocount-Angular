@@ -106,45 +106,75 @@
                         <form class="flex flex-col w-full" [formGroup]="selectedActivityForm">
 
                             <div class="flex flex-col px-12 py-7 pb-3 justify-center">
-                                <div class="flex flex-auto w-full pb-5">
-                                    <!-- Titre & Type activité -->
-                                    <div class="flex flex-row w-full pr-12">
-                                        <!-- Titre -->
-                                        <div class="flex flex-col w-full items-center">
-                                            <mat-form-field class="w-4/5">
-                                                <mat-label>Titre</mat-label>
-                                                <input
-                                                    #titleAddField
-                                                    matInput
-                                                    [formControlName]="'title'">
-                                            </mat-form-field>
+                                <div class="flex flex-auto pt-5">
+                                    <div class="flex flex-col w-1/2 pr-12">
+                                        <!-- Row 1 -->
+                                        <div class="flex flex-row w-full">
+                                            <!-- Titre -->
+                                            <div class="flex flex-col w-full items-center">
+                                                <mat-form-field class="w-4/5">
+                                                    <mat-label>Titre</mat-label>
+                                                    <input
+                                                        #titleAddField
+                                                        matInput
+                                                        [formControlName]="'title'">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Type activité -->
+                                            <div class="flex flex-col w-full items-center">
+                                                <mat-form-field class="fuse-mat-no-subscript w-4/5">
+                                                    <mat-label>Type</mat-label>
+                                                    <mat-select
+                                                        [formControlName]="'activity_type_id'"
+                                                        (selectionChange)="activityTypeChanged($event)">
+                                                        <ng-container *ngFor="let activityType of activityTypes">
+                                                            <mat-option [value]="activityType.id">{{activityType.name}}</mat-option>
+                                                        </ng-container>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
                                         </div>
 
-                                        <!-- Type activité -->
-                                        <div class="flex flex-col w-full items-center">
-                                            <mat-form-field class="fuse-mat-no-subscript w-4/5">
-                                                <mat-label>Type</mat-label>
-                                                <mat-select
-                                                    [formControlName]="'activity_type_id'"
-                                                    (selectionChange)="activityTypeChanged($event)">
-                                                    <ng-container *ngFor="let activityType of activityTypes">
-                                                        <mat-option [value]="activityType.id">{{activityType.name}}</mat-option>
-                                                    </ng-container>
-                                                </mat-select>
-                                            </mat-form-field>
+                                        <!-- Row 2 -->
+                                        <div class="flex flex-row w-full">
+                                            <!-- Distance -->
+                                            <div class="flex flex-col w-full items-center">
+                                                <mat-form-field class="w-4/5">
+                                                    <mat-label>Distance</mat-label>
+                                                    <input
+                                                        matInput
+                                                        [formControlName]="'distance'">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <!-- Difficulté -->
+                                            <div class="flex flex-col w-full items-center">
+                                                <mat-form-field class="fuse-mat-no-subscript w-4/5">
+                                                    <mat-label>Difficulté ressentie</mat-label>
+                                                    <mat-select
+                                                        [formControlName]="'difficulty_id'">
+                                                        <ng-container *ngFor="let difficulty of difficulties">
+                                                            <mat-option [value]="difficulty.id">{{difficulty.name}}</mat-option>
+                                                        </ng-container>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <!-- Description -->
-                                    <div class="w-full pl-12">
-                                        <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
-                                            <mat-label>Description</mat-label>
-                                            <textarea
-                                                matInput
-                                                [formControlName]="'description'"
-                                                [rows]="3"
-                                                matTextareaAutosize></textarea>
-                                        </mat-form-field>
+                                    <div class="flex flex-col w-1/2 pl-12">
+                                        <!-- Description -->
+                                        <div class="w-full">
+                                            <mat-form-field class="fuse-mat-textarea fuse-mat-no-subscript w-full">
+                                                <mat-label>Description</mat-label>
+                                                <textarea
+                                                    matInput
+                                                    [formControlName]="'description'"
+                                                    [rows]="5"
+                                                    matTextareaAutosize></textarea>
+                                            </mat-form-field>
+                                        </div>
                                     </div>
                                 </div>
 
