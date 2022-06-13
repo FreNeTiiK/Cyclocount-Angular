@@ -20,7 +20,7 @@
 
     <!-- Main -->
     <div class="flex flex-auto overflow-hidden">
-        <!-- Stock list -->
+        <!-- Activities list -->
         <div class="flex flex-col flex-auto overflow-auto">
             <ng-container *ngIf="activities">
                 <div class="grid overflow-auto">
@@ -205,7 +205,7 @@
 
                                     <div class="flex flex-col w-1/2 pl-12">
                                         <!-- Row 1 -->
-                                        <div class="flex flex-row w-full pb-4">
+                                        <div class="flex flex-auto w-full pb-4">
                                             <!-- Date de départ -->
                                             <div class="flex flex-col w-full items-center">
                                                 <mat-form-field class="fuse-mat-no-subscript w-4/5">
@@ -236,7 +236,7 @@
                                         </div>
 
                                         <!-- Row 2 -->
-                                        <div class="flex flex-row w-full pb-4">
+                                        <div class="flex flex-row w-full">
                                             <!-- Puissance moyenne -->
                                             <div class="flex flex-col w-full items-center">
                                                 <mat-form-field class="w-4/5">
