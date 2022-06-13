@@ -34,6 +34,12 @@
                             Titre
                         </div>
                         <div>
+                            Type
+                        </div>
+                        <div>
+                            Distance
+                        </div>
+                        <div>
                             Durée
                         </div>
                         <div>
@@ -59,6 +65,16 @@
                                     <!-- Title -->
                                     <div>
                                         {{activity.title}}
+                                    </div>
+
+                                    <!-- Type -->
+                                    <div>
+                                        {{activity.activity_type.name}}
+                                    </div>
+
+                                    <!-- Distance -->
+                                    <div>
+                                        {{activity.distance}} {{activity.distance && 'km'}}
                                     </div>
 
                                     <!-- Duration -->
