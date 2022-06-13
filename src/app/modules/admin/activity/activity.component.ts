@@ -152,7 +152,7 @@ export class ActivityComponent implements OnInit {
         this.selectedActivity = this.activities.find(item => item.id === activityId) || null;
         this.selectedActivityForm.patchValue({user_id: this.selectedActivity.user_link.id});
         this.selectedActivityForm.patchValue({equipment_id: this.selectedActivity.equipment ? this.selectedActivity.equipment.id : 'none'});
-        this.selectedActivityForm.patchValue({difficulty_id: this.selectedActivity.difficulty.id});
+        this.selectedActivityForm.patchValue({difficulty_id: this.selectedActivity.difficulty?.id});
         this.selectedActivityForm.patchValue({activity_type_id: this.selectedActivity.activity_type.id});
         this.selectedActivityForm.patchValue(this.selectedActivity);
     }

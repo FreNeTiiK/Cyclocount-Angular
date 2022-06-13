@@ -69,28 +69,28 @@
 
                                     <!-- Type -->
                                     <div>
-                                        {{activity.activity_type?.name}}
+                                        {{activity.activity_type?.name || '-'}}
                                     </div>
 
                                     <!-- Distance -->
                                     <div>
-                                        {{activity.distance}} {{activity.distance && 'km'}}
+                                        {{activity.distance || '-'}} {{activity.distance && 'km'}}
                                     </div>
 
                                     <!-- Duration -->
                                     <div>
                                         {{moment(activity.departure_time).isValid() && moment(activity.arrival_time).isValid() ?
-                                        getDuration(activity.departure_time, activity.arrival_time) : ''}}
+                                        getDuration(activity.departure_time, activity.arrival_time) : '-'}}
                                     </div>
 
                                     <!-- Speed Average -->
                                     <div>
-                                        {{activity.speed_average}} {{activity.speed_average && 'km/h'}}
+                                        {{activity.speed_average || '-'}} {{activity.speed_average && 'km/h'}}
                                     </div>
 
                                     <!-- Speed Max -->
                                     <div>
-                                        {{activity.speed_max}} {{activity.speed_max && 'km/h'}}
+                                        {{activity.speed_max || '-'}} {{activity.speed_max && 'km/h'}}
                                     </div>
 
                                     <div>
