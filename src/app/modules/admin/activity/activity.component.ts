@@ -16,7 +16,7 @@ import {EquipmentService} from 'app/modules/admin/equipment/services/equipment.s
 import {Equipment} from 'app/modules/admin/equipment/types/equipment.type';
 import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type';
 import {MatSelectChange} from '@angular/material/select';
-import {Difficulty} from "./types/difficulty.type";
+import {Difficulty} from 'app/modules/admin/activity/types/difficulty.type';
 
 @Component({
     selector: 'app-activity',

@@ -4,4 +4,58 @@
         <!-- Title -->
         <div class="text-4xl font-extrabold tracking-tight">Statistiques</div>
     </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-8 px-8 md:px-15">
+        <!-- Kilometers by activity type overview -->
+        <div class="sm:col-span-2 lg:col-span-3 dark flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartKms">
+            <div class="flex items-center justify-between mt-10 ml-10 mr-6 sm:mr-10">
+                <div class="flex flex-col">
+                    <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">Kilomètres parcourus</div>
+                    <div class="font-medium text-secondary">Nombre de kilomètres parcourus lors des 30 dernières activités</div>
+                </div>
+                <div class="ml-2">
+                    <mat-button-toggle-group
+                        class="hidden sm:inline-flex border-none space-x-1"
+                        [value]="activityTypes[0].code"
+                        #kmActivityTypeSelector="matButtonToggleGroup">
+                        <ng-container *ngFor="let activityType of activityTypes">
+                            <mat-button-toggle
+                                class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                [value]="activityType.code" >{{activityType.name}}
+                            </mat-button-toggle>
+                        </ng-container>
+                    </mat-button-toggle-group>
+                    <div class="sm:hidden">
+                        <button
+                            mat-icon-button
+                            [matMenuTriggerFor]="kmMenu">
+                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                        </button>
+                        <mat-menu #kmMenu="matMenu">
+                            <button
+                                mat-menu-item
+                                *ngFor="let activityType of activityTypes"
+                                (click)="changeKmActivityTypeSelector(activityType.code)">
+                                {{activityType.name}}
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto h-80" *ngIf="activityTypes && activityTypes.length > 0">
+                <apx-chart
+                    class="flex-auto w-full h-full"
+                    [chart]="chartKms.chart"
+                    [colors]="chartKms.colors"
+                    [dataLabels]="chartKms.dataLabels"
+                    [fill]="chartKms.fill"
+                    [grid]="chartKms.grid"
+                    [series]="chartKms.series[kmActivityTypeSelector.value]"
+                    [stroke]="chartKms.stroke"
+                    [tooltip]="chartKms.tooltip"
+                    [xaxis]="chartKms.xaxis"
+                    [yaxis]="chartKms.yaxis"></apx-chart>
+            </div>
+        </div>
+    </div>
 </div>

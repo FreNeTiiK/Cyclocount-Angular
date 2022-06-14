@@ -5,7 +5,7 @@ import {ToastrService} from 'ngx-toastr';
 import {User} from 'app/core/user/types/user.type';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Equipment} from 'app/modules/admin/equipment/types/equipment.type';
-import {EquipmentService} from './services/equipment.service';
+import {EquipmentService} from 'app/modules/admin/equipment/services/equipment.service';
 import {FuseConfirmationService} from '@fuse/services/confirmation';
 import {ActivityService} from 'app/modules/admin/activity/services/activity.service';
 import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type';

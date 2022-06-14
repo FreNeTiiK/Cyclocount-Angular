@@ -5,9 +5,9 @@ import {ToastrService} from 'ngx-toastr';
 import {AnnualObjectiveService} from 'app/modules/admin/annual-objective/services/annual-objective.service';
 import {TypeObjective} from 'app/modules/admin/annual-objective/types/type-objective.type';
 import {User} from 'app/core/user/types/user.type';
-import {AnnualObjective} from './types/annual-objective.type';
+import {AnnualObjective} from 'app/modules/admin/annual-objective/types/annual-objective.type';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AnnualObjectivePush} from './types/annual-objective-push.type';
+import {AnnualObjectivePush} from 'app/modules/admin/annual-objective/types/annual-objective-push.type';
 import {FuseConfirmationService} from '@fuse/services/confirmation';
 
 @Component({
