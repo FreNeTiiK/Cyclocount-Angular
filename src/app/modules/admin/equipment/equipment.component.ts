@@ -169,8 +169,13 @@ export class EquipmentComponent implements OnInit,AfterViewInit {
             if (result === 'confirmed')
             {
                 // Delete the objective on the server
-                this.equipmentService.deleteEquipment(equipmentId).subscribe(() => {
-                    this.getEquipments();
+                this.equipmentService.deleteEquipment(equipmentId).subscribe({
+                    next: () => {
+                        this.getEquipments();
+                    },
+                    error: () => {
+                        this.showFlashMessage('error', 'Suppression impossible : équipement utilisé pour certaines activités');
+                    }
                 });
             }
         });
