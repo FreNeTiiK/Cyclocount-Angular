@@ -1,42 +1,66 @@
-<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+<div class="flex flex-col flex-auto w-full">
     <!-- Header -->
     <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
         <!-- Title -->
         <div class="text-4xl font-extrabold tracking-tight">Statistiques</div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:mr-10">
+            <!-- Select activity type -->
+            <mat-form-field class="fuse-mat-no-subscript w-full" *ngIf="selectedActivityTypeId">
+                <mat-label>Type d'activité</mat-label>
+                <mat-select [value]="selectedActivityTypeId" (selectionChange)="activityTypeChanged($event)">
+                    <mat-option [value]="activityType.id" *ngFor="let activityType of activityTypes">
+                        {{activityType.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-8 px-8 md:px-15">
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
         <!-- Kilometers by activity type overview -->
-        <div class="sm:col-span-2 lg:col-span-3 dark flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartKms">
+        <div class="dark flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartKms">
             <div class="flex items-center justify-between mt-10 ml-10 mr-6 sm:mr-10">
                 <div class="flex flex-col">
                     <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">Kilomètres parcourus</div>
-                    <div class="font-medium text-secondary">Nombre de kilomètres parcourus lors des 30 dernières activités</div>
+                    <div class="font-medium text-secondary" *ngIf="kmActivityTypeSelector.value !== 'all'">
+                        Nombre de kilomètres parcourus lors de vos {{kmActivityTypeSelector.value}} dernières activités
+                    </div>
+                    <div class="font-medium text-secondary" *ngIf="kmActivityTypeSelector.value === 'all'">
+                        Nombre de kilomètres parcourus lors de toutes vos activités
+                    </div>
                 </div>
-                <div class="ml-2">
+                <div class="ml-2 flex flex-col text-center">
                     <mat-button-toggle-group
                         class="hidden sm:inline-flex border-none space-x-1"
-                        [value]="activityTypes[0].code"
+                        value="15"
                         #kmActivityTypeSelector="matButtonToggleGroup">
-                        <ng-container *ngFor="let activityType of activityTypes">
-                            <mat-button-toggle
-                                class="px-1.5 rounded-full overflow-hidden border-none font-medium"
-                                [value]="activityType.code" >{{activityType.name}}
-                            </mat-button-toggle>
-                        </ng-container>
+                        <mat-button-toggle
+                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                            value="all" >Toutes
+                        </mat-button-toggle>
+                        <mat-button-toggle
+                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                            value="30" >30 activités
+                        </mat-button-toggle>
+                        <mat-button-toggle
+                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                            value="15" >15 activités
+                        </mat-button-toggle>
                     </mat-button-toggle-group>
                     <div class="sm:hidden">
-                        <button
-                            mat-icon-button
-                            [matMenuTriggerFor]="kmMenu">
+                        <button mat-icon-button [matMenuTriggerFor]="kmMenu">
                             <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
                         </button>
                         <mat-menu #kmMenu="matMenu">
-                            <button
-                                mat-menu-item
-                                *ngFor="let activityType of activityTypes"
-                                (click)="changeKmActivityTypeSelector(activityType.code)">
-                                {{activityType.name}}
+                            <button mat-menu-item (click)="kmActivityTypeSelector.value = 'all'">
+                                Toutes
+                            </button>
+                            <button mat-menu-item (click)="kmActivityTypeSelector.value = '30'">
+                                30 activités
+                            </button>
+                            <button mat-menu-item (click)="kmActivityTypeSelector.value = '15'">
+                                15 activités
                             </button>
                         </mat-menu>
                     </div>
@@ -55,6 +79,118 @@
                     [tooltip]="chartKms.tooltip"
                     [xaxis]="chartKms.xaxis"
                     [yaxis]="chartKms.yaxis"></apx-chart>
+            </div>
+        </div>
+
+        <!-- Speed -->
+        <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartSpeed">
+            <div class="flex items-start justify-between m-6 mb-0">
+                <div class="text-lg font-medium tracking-tight leading-6 truncate">Vitesse maximale VS Vitesse moyenne</div>
+                <div class="ml-2 flex flex-col text-center">
+                    <mat-button-toggle-group
+                        class="hidden sm:inline-flex border-none space-x-1"
+                        value="15"
+                        #speedActivityTypeSelector="matButtonToggleGroup">
+                        <mat-button-toggle
+                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                            value="all" >Toutes
+                        </mat-button-toggle>
+                        <mat-button-toggle
+                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                            value="30" >30 activités
+                        </mat-button-toggle>
+                        <mat-button-toggle
+                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                            value="15" >15 activités
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                    <div class="sm:hidden">
+                        <button mat-icon-button [matMenuTriggerFor]="kmMenu">
+                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                        </button>
+                        <mat-menu #kmMenu="matMenu">
+                            <button mat-menu-item (click)="speedActivityTypeSelector.value = 'all'">
+                                Toutes
+                            </button>
+                            <button mat-menu-item (click)="speedActivityTypeSelector.value = '30'">
+                                30 activités
+                            </button>
+                            <button mat-menu-item (click)="speedActivityTypeSelector.value = '15'">
+                                15 activités
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto h-80 mt-3">
+                <apx-chart
+                    class="flex-auto w-full h-full"
+                    [chart]="chartSpeed.chart"
+                    [colors]="chartSpeed.colors"
+                    [dataLabels]="chartSpeed.dataLabels"
+                    [grid]="chartSpeed.grid"
+                    [legend]="chartSpeed.legend"
+                    [series]="chartSpeed.series[speedActivityTypeSelector.value]"
+                    [stroke]="chartSpeed.stroke"
+                    [tooltip]="chartSpeed.tooltip"
+                    [xaxis]="chartSpeed.xaxis"
+                    [yaxis]="chartSpeed.yaxis"></apx-chart>
+            </div>
+        </div>
+
+        <!-- Power -->
+        <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartPower">
+            <div class="flex items-start justify-between m-6 mb-0">
+                <div class="text-lg font-medium tracking-tight leading-6 truncate">Calories consommée VS Puissance moyenne</div>
+                <div class="ml-2 flex flex-col text-center">
+                    <mat-button-toggle-group
+                        class="hidden sm:inline-flex border-none space-x-1"
+                        value="15"
+                        #powerActivityTypeSelector="matButtonToggleGroup">
+                        <mat-button-toggle
+                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                            value="all" >Toutes
+                        </mat-button-toggle>
+                        <mat-button-toggle
+                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                            value="30" >30 activités
+                        </mat-button-toggle>
+                        <mat-button-toggle
+                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                            value="15" >15 activités
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                    <div class="sm:hidden">
+                        <button mat-icon-button [matMenuTriggerFor]="kmMenu">
+                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                        </button>
+                        <mat-menu #kmMenu="matMenu">
+                            <button mat-menu-item (click)="powerActivityTypeSelector.value = 'all'">
+                                Toutes
+                            </button>
+                            <button mat-menu-item (click)="powerActivityTypeSelector.value = '30'">
+                                30 activités
+                            </button>
+                            <button mat-menu-item (click)="powerActivityTypeSelector.value = '15'">
+                                15 activités
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto h-80 mt-3">
+                <apx-chart
+                    class="flex-auto w-full h-full"
+                    [chart]="chartPower.chart"
+                    [colors]="chartPower.colors"
+                    [dataLabels]="chartPower.dataLabels"
+                    [grid]="chartPower.grid"
+                    [legend]="chartPower.legend"
+                    [series]="chartPower.series[powerActivityTypeSelector.value]"
+                    [stroke]="chartPower.stroke"
+                    [tooltip]="chartPower.tooltip"
+                    [xaxis]="chartPower.xaxis"
+                    [yaxis]="chartPower.yaxis"></apx-chart>
             </div>
         </div>
     </div>

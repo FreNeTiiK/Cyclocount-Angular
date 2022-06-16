@@ -9,6 +9,7 @@ import {ActivityService} from 'app/modules/admin/activity/services/activity.serv
 import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type';
 import {Router} from '@angular/router';
 import fr from 'apexcharts/dist/locales/fr.json';
+import { MatSelectChange } from '@angular/material/select';
 
 
 @Component({
@@ -18,9 +19,14 @@ import fr from 'apexcharts/dist/locales/fr.json';
 })
 export class StatisticComponent implements OnInit {
     @ViewChild('kmActivityTypeSelector') kmActivityTypeSelector;
+    @ViewChild('speedActivityTypeSelector') speedActivityTypeSelector;
+    @ViewChild('powerActivityTypeSelector') powerActivityTypeSelector;
     chartKms: ApexOptions;
-    chartData: any;
+    chartSpeed: ApexOptions;
+    chartPower: ApexOptions;
+    chartsData: any;
     activityTypes: ActivityType[];
+    selectedActivityTypeId: number;
 
     constructor(
         private statisticService: StatisticService,
@@ -36,14 +42,6 @@ export class StatisticComponent implements OnInit {
 
     ngOnInit(): void {
         this.getActivityTypes();
-        this.statisticService.getKmChart().subscribe({
-            next: (chartData) => {
-                this.chartData = chartData;
-                this.prepareChartData();
-            }
-        });
-
-
         // Attach SVG fill fixer to all ApexCharts
         window['Apex'] = {
             chart: {
@@ -64,16 +62,26 @@ export class StatisticComponent implements OnInit {
         this.activityService.getActivityTypes().subscribe({
             next: (activityTypes) => {
                 this.activityTypes = activityTypes;
-            },
-            error: (err) => {
-                console.log('mes couilles');
+                this.selectedActivityTypeId = this.activityTypes[0]?.id;
+                this.getCharts();
             }
         });
     }
 
-    changeKmActivityTypeSelector(activityTypeCode: string): void
+    getCharts(): void
     {
-        this.kmActivityTypeSelector.value = activityTypeCode;
+        this.statisticService.getCharts(this.selectedActivityTypeId).subscribe({
+            next: (chartsData) => {
+                this.chartsData = chartsData;
+                this.prepareChartData();
+            }
+        });
+    }
+
+    activityTypeChanged(change: MatSelectChange): void
+    {
+        this.selectedActivityTypeId = change.value;
+        this.getCharts();
     }
 
     private fixSvgFill(element: Element): void
@@ -139,7 +147,7 @@ export class StatisticComponent implements OnInit {
                     }
                 }
             },
-            series: this.chartData.km.series,
+            series: this.chartsData.km.series,
             stroke: {
                 width: 2
             },
@@ -190,5 +198,162 @@ export class StatisticComponent implements OnInit {
                 show: false
             }
         };
+
+        // Speed
+        this.chartSpeed = {
+            chart     : {
+                locales: [fr],
+                defaultLocale: 'fr',
+                animations: {
+                    enabled: false
+                },
+                fontFamily: 'inherit',
+                foreColor : 'inherit',
+                height    : '100%',
+                type      : 'area',
+                toolbar   : {
+                    show: false
+                },
+                zoom      : {
+                    enabled: false
+                }
+            },
+            colors    : ['#64748B', '#94A3B8'],
+            dataLabels: {
+                enabled: false
+            },
+            fill      : {
+                colors : ['#64748B', '#94A3B8'],
+                opacity: 0.5
+            },
+            grid      : {
+                show   : false,
+                padding: {
+                    bottom: -40,
+                    left  : 0,
+                    right : 0
+                }
+            },
+            legend    : {
+                show: false
+            },
+            series    : this.chartsData.speed.series,
+            stroke    : {
+                curve: 'smooth',
+                width: 2
+            },
+            tooltip   : {
+                followCursor: true,
+                theme       : 'dark',
+                x           : {
+                    format: 'dd/MM/yyyy'
+                }
+            },
+            xaxis     : {
+                axisBorder: {
+                    show: false
+                },
+                labels    : {
+                    offsetY: -20,
+                    rotate : 0,
+                    style  : {
+                        colors: 'var(--fuse-text-secondary)'
+                    }
+                },
+                tickAmount: 3,
+                tooltip   : {
+                    enabled: false
+                },
+                type      : 'datetime'
+            },
+            yaxis     : {
+                labels    : {
+                    style: {
+                        colors: 'var(--fuse-text-secondary)'
+                    }
+                },
+                show      : false,
+                tickAmount: 5
+            }
+        };
+
+        // Power
+        this.chartPower = {
+            chart     : {
+                locales: [fr],
+                defaultLocale: 'fr',
+                animations: {
+                    enabled: false
+                },
+                fontFamily: 'inherit',
+                foreColor : 'inherit',
+                height    : '100%',
+                type      : 'area',
+                toolbar   : {
+                    show: false
+                },
+                zoom      : {
+                    enabled: false
+                }
+            },
+            colors    : ['#64748B', '#94A3B8'],
+            dataLabels: {
+                enabled: false
+            },
+            fill      : {
+                colors : ['#64748B', '#94A3B8'],
+                opacity: 0.5
+            },
+            grid      : {
+                show   : false,
+                padding: {
+                    bottom: -40,
+                    left  : 0,
+                    right : 0
+                }
+            },
+            legend    : {
+                show: false
+            },
+            series    : this.chartsData.power.series,
+            stroke    : {
+                curve: 'smooth',
+                width: 2
+            },
+            tooltip   : {
+                followCursor: true,
+                theme       : 'dark',
+                x           : {
+                    format: 'dd/MM/yyyy'
+                }
+            },
+            xaxis     : {
+                axisBorder: {
+                    show: false
+                },
+                labels    : {
+                    offsetY: -20,
+                    rotate : 0,
+                    style  : {
+                        colors: 'var(--fuse-text-secondary)'
+                    }
+                },
+                tickAmount: 3,
+                tooltip   : {
+                    enabled: false
+                },
+                type      : 'datetime'
+            },
+            yaxis     : {
+                labels    : {
+                    style: {
+                        colors: 'var(--fuse-text-secondary)'
+                    }
+                },
+                show      : false,
+                tickAmount: 5
+            }
+        };
+
     }
 }

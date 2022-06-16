@@ -12,7 +12,7 @@ export class StatisticService {
 
     constructor(private http: HttpClient) {}
 
-    getKmChart(): Observable<any> {
-        return this.http.get<any>(`${this.baseApiUrl}/kmChart`);
+    getCharts(activityTypeId: number): Observable<any> {
+        return this.http.get<any>(`${this.baseApiUrl}/charts/${activityTypeId}`);
     }
 }

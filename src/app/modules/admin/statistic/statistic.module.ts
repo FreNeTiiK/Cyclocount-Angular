@@ -13,6 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 const statisticRoutes: Route[] = [
     {
@@ -37,7 +39,9 @@ const statisticRoutes: Route[] = [
         MatTableModule,
         MatTooltipModule,
         NgApexchartsModule,
-        SharedModule
+        SharedModule,
+        MatFormFieldModule,
+        MatSelectModule
     ]
 })
 export class StatisticModule
