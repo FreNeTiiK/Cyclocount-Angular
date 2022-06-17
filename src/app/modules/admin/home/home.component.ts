@@ -50,7 +50,8 @@ export class HomeComponent implements OnInit {
         this.title.setTitle('Accueil - Cyclocount');
     }
 
-    ngOnInit(): void {
+    ngOnInit(): void
+    {
         this.homeService.getHomeDataWidgets().subscribe({
             next: (homeDataWidgets) => {
                 this.homeDataWidgets = homeDataWidgets;
