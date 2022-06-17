@@ -218,7 +218,7 @@ export class StatisticComponent implements OnInit {
                     enabled: false
                 }
             },
-            colors    : ['#64748B', '#94A3B8'],
+            colors    : ['#f59e0d', '#cc7b0f'],
             dataLabels: {
                 enabled: false
             },
@@ -227,11 +227,19 @@ export class StatisticComponent implements OnInit {
                 opacity: 0.5
             },
             grid      : {
-                show   : false,
+                show: true,
+                borderColor: '#334155',
                 padding: {
+                    top: 10,
                     bottom: -40,
-                    left  : 0,
-                    right : 0
+                    left: 0,
+                    right: 0
+                },
+                position: 'back',
+                xaxis: {
+                    lines: {
+                        show: true
+                    }
                 }
             },
             legend    : {
@@ -296,7 +304,7 @@ export class StatisticComponent implements OnInit {
                     enabled: false
                 }
             },
-            colors    : ['#64748B', '#94A3B8'],
+            colors    : ['#78c3b0', '#639d90'],
             dataLabels: {
                 enabled: false
             },
@@ -305,11 +313,19 @@ export class StatisticComponent implements OnInit {
                 opacity: 0.5
             },
             grid      : {
-                show   : false,
+                show: true,
+                borderColor: '#334155',
                 padding: {
+                    top: 10,
                     bottom: -40,
-                    left  : 0,
-                    right : 0
+                    left: 0,
+                    right: 0
+                },
+                position: 'back',
+                xaxis: {
+                    lines: {
+                        show: true
+                    }
                 }
             },
             legend    : {
