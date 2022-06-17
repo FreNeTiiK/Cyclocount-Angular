@@ -7,6 +7,7 @@ import {HomeService} from 'app/modules/admin/home/services/home.service';
 import {HomeDataWidgets} from 'app/modules/admin/home/types/home-data-widgets.type';
 import {ApexOptions} from 'ng-apexcharts';
 import {ActivityService} from '../activity/services/activity.service';
+import {CommunicationService} from "../../../core/communication/communication.service";
 
 @Component({
     selector: 'app-home',
@@ -43,6 +44,7 @@ export class HomeComponent implements OnInit {
     constructor(
         private homeService: HomeService,
         private activityTypeService: ActivityService,
+        private communicationService: CommunicationService,
         private storageService: StorageService,
         public auth: AuthService,
         private title: Title
@@ -52,6 +54,12 @@ export class HomeComponent implements OnInit {
 
     ngOnInit(): void
     {
+        this.communicationService.componentMethodCalled$.subscribe(
+            () => {
+                this.user = this.storageService.getInLocalStorage<User>('user');
+            }
+        );
+
         this.homeService.getHomeDataWidgets().subscribe({
             next: (homeDataWidgets) => {
                 this.homeDataWidgets = homeDataWidgets;
