@@ -1,4 +1,4 @@
-<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden dark:bg-transparent">
     <!-- Header -->
     <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
         <!-- Title -->
@@ -19,14 +19,14 @@
     </div>
 
     <!-- Main -->
-    <div class="flex flex-auto overflow-hidden">
+    <div class="flex flex-auto bg-card overflow-hidden">
         <!-- Activities list -->
         <div class="flex flex-col flex-auto overflow-auto">
             <ng-container *ngIf="activities">
                 <div class="grid overflow-auto">
                     <!-- Header -->
                     <div
-                        class="activities-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5 items-end">
+                        class="activities-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-gray-900 items-end">
                         <div>
                             Date
                         </div>
@@ -367,8 +367,6 @@
             <ng-template #noActivities>
                 <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">Aucune activité trouvée !</div>
             </ng-template>
-
         </div>
-
     </div>
 </div>

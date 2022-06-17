@@ -82,117 +82,119 @@
             </div>
         </div>
 
-        <!-- Speed -->
-        <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartSpeed">
-            <div class="flex items-start justify-between m-6 mb-0">
-                <div class="text-lg font-medium tracking-tight leading-6 truncate">
-                   Vitesse Max/Moy
-                </div>
-                <div class="ml-2 flex flex-col text-center">
-                    <mat-button-toggle-group
-                        class="hidden sm:inline-flex border-none space-x-1"
-                        value="15"
-                        #speedActivityTypeSelector="matButtonToggleGroup">
-                        <mat-button-toggle
-                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
-                            value="all" >Toutes
-                        </mat-button-toggle>
-                        <mat-button-toggle
-                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
-                            value="30" >30 activités
-                        </mat-button-toggle>
-                        <mat-button-toggle
-                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
-                            value="15" >15 activités
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                    <div class="sm:hidden">
-                        <button mat-icon-button [matMenuTriggerFor]="kmMenu">
-                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
-                        </button>
-                        <mat-menu #kmMenu="matMenu">
-                            <button mat-menu-item (click)="speedActivityTypeSelector.value = 'all'">
-                                Toutes
-                            </button>
-                            <button mat-menu-item (click)="speedActivityTypeSelector.value = '30'">
-                                30 activités
-                            </button>
-                            <button mat-menu-item (click)="speedActivityTypeSelector.value = '15'">
-                                15 activités
-                            </button>
-                        </mat-menu>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col flex-auto h-80 mt-3">
-                <apx-chart
-                    class="flex-auto w-full h-full"
-                    [chart]="chartSpeed.chart"
-                    [colors]="chartSpeed.colors"
-                    [dataLabels]="chartSpeed.dataLabels"
-                    [grid]="chartSpeed.grid"
-                    [legend]="chartSpeed.legend"
-                    [series]="chartSpeed.series[speedActivityTypeSelector.value]"
-                    [stroke]="chartSpeed.stroke"
-                    [tooltip]="chartSpeed.tooltip"
-                    [xaxis]="chartSpeed.xaxis"
-                    [yaxis]="chartSpeed.yaxis"></apx-chart>
-            </div>
-        </div>
+        <div class="grid grid-rows-1 grid-cols-2 gap-3">
+            <!-- Speed -->
+            <div class="dark flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartSpeed">
+                <div class="flex items-start justify-between m-6 mb-0">
+                    <div class="mr-4 text-xl md:text-2xl font-semibold tracking-tight leading-4 md:leading-7">Vitesse Max / Moy</div>
 
-        <!-- Power -->
-        <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartPower">
-            <div class="flex items-start justify-between m-6 mb-0">
-                <div class="text-lg font-medium tracking-tight leading-6 truncate">Calories conso / Puissance moy</div>
-                <div class="ml-2 flex flex-col text-center">
-                    <mat-button-toggle-group
-                        class="hidden sm:inline-flex border-none space-x-1"
-                        value="15"
-                        #powerActivityTypeSelector="matButtonToggleGroup">
-                        <mat-button-toggle
-                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
-                            value="all" >Toutes
-                        </mat-button-toggle>
-                        <mat-button-toggle
-                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
-                            value="30" >30 activités
-                        </mat-button-toggle>
-                        <mat-button-toggle
-                            class="px-1.5 rounded-full overflow-hidden border-none font-medium"
-                            value="15" >15 activités
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                    <div class="sm:hidden">
-                        <button mat-icon-button [matMenuTriggerFor]="kmMenu">
-                            <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
-                        </button>
-                        <mat-menu #kmMenu="matMenu">
-                            <button mat-menu-item (click)="powerActivityTypeSelector.value = 'all'">
-                                Toutes
+                    <div class="ml-2 flex flex-col text-center">
+                        <mat-button-toggle-group
+                            class="hidden lg:inline-flex border-none space-x-1"
+                            value="15"
+                            #speedActivityTypeSelector="matButtonToggleGroup">
+                            <mat-button-toggle
+                                class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                value="all" >Toutes
+                            </mat-button-toggle>
+                            <mat-button-toggle
+                                class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                value="30" >30 activités
+                            </mat-button-toggle>
+                            <mat-button-toggle
+                                class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                value="15" >15 activités
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                        <div class="lg:hidden">
+                            <button mat-icon-button [matMenuTriggerFor]="kmMenu">
+                                <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
                             </button>
-                            <button mat-menu-item (click)="powerActivityTypeSelector.value = '30'">
-                                30 activités
-                            </button>
-                            <button mat-menu-item (click)="powerActivityTypeSelector.value = '15'">
-                                15 activités
-                            </button>
-                        </mat-menu>
+                            <mat-menu #kmMenu="matMenu">
+                                <button mat-menu-item (click)="speedActivityTypeSelector.value = 'all'">
+                                    Toutes
+                                </button>
+                                <button mat-menu-item (click)="speedActivityTypeSelector.value = '30'">
+                                    30 activités
+                                </button>
+                                <button mat-menu-item (click)="speedActivityTypeSelector.value = '15'">
+                                    15 activités
+                                </button>
+                            </mat-menu>
+                        </div>
                     </div>
                 </div>
+                <div class="flex flex-col flex-auto h-80">
+                    <apx-chart
+                        class="flex-auto w-full h-full"
+                        [chart]="chartSpeed.chart"
+                        [colors]="chartSpeed.colors"
+                        [dataLabels]="chartSpeed.dataLabels"
+                        [grid]="chartSpeed.grid"
+                        [legend]="chartSpeed.legend"
+                        [series]="chartSpeed.series[speedActivityTypeSelector.value]"
+                        [stroke]="chartSpeed.stroke"
+                        [tooltip]="chartSpeed.tooltip"
+                        [xaxis]="chartSpeed.xaxis"
+                        [yaxis]="chartSpeed.yaxis"></apx-chart>
+                </div>
             </div>
-            <div class="flex flex-col flex-auto h-80 mt-3">
-                <apx-chart
-                    class="flex-auto w-full h-full"
-                    [chart]="chartPower.chart"
-                    [colors]="chartPower.colors"
-                    [dataLabels]="chartPower.dataLabels"
-                    [grid]="chartPower.grid"
-                    [legend]="chartPower.legend"
-                    [series]="chartPower.series[powerActivityTypeSelector.value]"
-                    [stroke]="chartPower.stroke"
-                    [tooltip]="chartPower.tooltip"
-                    [xaxis]="chartPower.xaxis"
-                    [yaxis]="chartPower.yaxis"></apx-chart>
+
+            <!-- Power -->
+            <div class="dark flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartPower">
+                <div class="flex items-start justify-between m-6 mb-0">
+                    <div class="mr-4 text-xl md:text-2xl font-semibold tracking-tight leading-4 md:leading-7">Calories conso / Puissance moy</div>
+
+                    <div class="ml-2 flex flex-col text-center">
+                        <mat-button-toggle-group
+                            class="hidden lg:inline-flex border-none space-x-1"
+                            value="15"
+                            #powerActivityTypeSelector="matButtonToggleGroup">
+                            <mat-button-toggle
+                                class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                value="all" >Toutes
+                            </mat-button-toggle>
+                            <mat-button-toggle
+                                class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                value="30" >30 activités
+                            </mat-button-toggle>
+                            <mat-button-toggle
+                                class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                value="15" >15 activités
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                        <div class="lg:hidden">
+                            <button mat-icon-button [matMenuTriggerFor]="kmMenu">
+                                <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                            </button>
+                            <mat-menu #kmMenu="matMenu">
+                                <button mat-menu-item (click)="powerActivityTypeSelector.value = 'all'">
+                                    Toutes
+                                </button>
+                                <button mat-menu-item (click)="powerActivityTypeSelector.value = '30'">
+                                    30 activités
+                                </button>
+                                <button mat-menu-item (click)="powerActivityTypeSelector.value = '15'">
+                                    15 activités
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-auto h-80">
+                    <apx-chart
+                        class="flex-auto w-full h-full"
+                        [chart]="chartPower.chart"
+                        [colors]="chartPower.colors"
+                        [dataLabels]="chartPower.dataLabels"
+                        [grid]="chartPower.grid"
+                        [legend]="chartPower.legend"
+                        [series]="chartPower.series[powerActivityTypeSelector.value]"
+                        [stroke]="chartPower.stroke"
+                        [tooltip]="chartPower.tooltip"
+                        [xaxis]="chartPower.xaxis"
+                        [yaxis]="chartPower.yaxis"></apx-chart>
+                </div>
             </div>
         </div>
     </div>

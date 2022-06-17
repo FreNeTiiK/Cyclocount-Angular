@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import {HomeComponent} from 'app/modules/admin/home/home.component';
+import {MatButtonModule} from "@angular/material/button";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatIconModule} from "@angular/material/icon";
+import {CommonModule} from "@angular/common";
+import {NgApexchartsModule} from "ng-apexcharts";
 
 const homeRoutes: Route[] = [
     {
@@ -15,6 +20,11 @@ const homeRoutes: Route[] = [
     ],
     imports: [
         RouterModule.forChild(homeRoutes),
+        MatButtonModule,
+        MatMenuModule,
+        MatIconModule,
+        CommonModule,
+        NgApexchartsModule,
     ]
 })
 export class HomeModule
