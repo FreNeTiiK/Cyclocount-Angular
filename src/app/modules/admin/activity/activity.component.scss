@@ -1,3 +1,11 @@
 .activities-grid {
-    grid-template-columns: 150px 230px 120px 120px 190px 170px 170px 70px;
+    grid-template-columns: 150px 230px 100px 120px 190px 160px 60px;
+
+    @screen lg {
+        grid-template-columns: 150px 230px 130px 150px 200px 170px 170px 60px;
+    }
+
+    @screen xl {
+        grid-template-columns: 150px 230px 140px 140px 190px 170px 170px 60px;
+    }
 }

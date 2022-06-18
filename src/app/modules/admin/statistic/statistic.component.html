@@ -17,8 +17,8 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
-        <!-- Kilometers by activity type overview -->
+    <div class=" w-full max-w-screen-xl mx-auto p-6 md:p-8">
+        <!-- Kilometers by activity type -->
         <div class="dark flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartKms">
             <div class="flex items-center justify-between mt-10 ml-10 mr-6 sm:mr-10">
                 <div class="flex flex-col">
@@ -82,9 +82,10 @@
             </div>
         </div>
 
-        <div class="grid grid-rows-1 grid-cols-2 gap-3">
+        <!-- Speed & Power -->
+        <div class="grid grid-rows-1 grid-cols-2 gap-3 mt-8">
             <!-- Speed -->
-            <div class="dark flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartSpeed">
+            <div class="dark flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartSpeed">
                 <div class="flex items-start justify-between m-6 mb-0">
                     <div class="mr-4 text-xl md:text-2xl font-semibold tracking-tight leading-4 md:leading-7">Vitesse Max / Moy</div>
 
@@ -141,7 +142,7 @@
             </div>
 
             <!-- Power -->
-            <div class="dark flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartPower">
+            <div class="dark flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="chartPower">
                 <div class="flex items-start justify-between m-6 mb-0">
                     <div class="mr-4 text-xl md:text-2xl font-semibold tracking-tight leading-4 md:leading-7">Calories conso / Puissance moy</div>
 
@@ -194,6 +195,33 @@
                         [tooltip]="chartPower.tooltip"
                         [xaxis]="chartPower.xaxis"
                         [yaxis]="chartPower.yaxis"></apx-chart>
+                </div>
+            </div>
+        </div>
+
+        <!-- Annual objectives -->
+        <div class="flex flex-auto w-full justify-center">
+            <div class="dark flex flex-col bg-card shadow rounded-2xl mt-8 w-full" *ngIf="chartAnnualObjectives">
+                <div class="text-2xl md:text-3xl font-semibold tracking-tight leading-7 m-6 mb-0">Progression des objectifs annuels</div>
+
+                <div class="flex flex-col flex-auto">
+                    <apx-chart
+                        *ngIf="annualObjectiveChartData.categories.length > 0; else noAnnualObjectiveData"
+                        class="flex-auto w-full h-80 md:h-[30rem]"
+                        [chart]="chartAnnualObjectives.chart"
+                        [colors]="chartAnnualObjectives.colors"
+                        [dataLabels]="chartAnnualObjectives.dataLabels"
+                        [markers]="chartAnnualObjectives.markers"
+                        [plotOptions]="chartAnnualObjectives.plotOptions"
+                        [series]="chartAnnualObjectives.series"
+                        [stroke]="chartAnnualObjectives.stroke"
+                        [tooltip]="chartAnnualObjectives.tooltip"
+                        [xaxis]="chartAnnualObjectives.xaxis"
+                        [yaxis]="chartAnnualObjectives.yaxis"></apx-chart>
+
+                    <ng-template #noAnnualObjectiveData>
+                        <div class="p-8 sm:p-16 text-2xl md:text-3xl font-semibold tracking-tight leading-7 text-center">Aucune donnée trouvée pour ce type d'activité !</div>
+                    </ng-template>
                 </div>
             </div>
         </div>

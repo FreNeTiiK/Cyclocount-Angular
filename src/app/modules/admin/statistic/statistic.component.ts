@@ -10,6 +10,7 @@ import {ActivityType} from 'app/modules/admin/activity/types/activity-type.type'
 import {Router} from '@angular/router';
 import fr from 'apexcharts/dist/locales/fr.json';
 import { MatSelectChange } from '@angular/material/select';
+import {AnnualObjectiveStats} from './types/annual-objective-stats.type';
 
 
 @Component({
@@ -24,7 +25,9 @@ export class StatisticComponent implements OnInit {
     chartKms: ApexOptions;
     chartSpeed: ApexOptions;
     chartPower: ApexOptions;
+    chartAnnualObjectives: ApexOptions;
     chartsData: any;
+    annualObjectiveChartData: AnnualObjectiveStats;
     activityTypes: ActivityType[];
     selectedActivityTypeId: number;
 
@@ -64,6 +67,7 @@ export class StatisticComponent implements OnInit {
                 this.activityTypes = activityTypes;
                 this.selectedActivityTypeId = this.activityTypes[0]?.id;
                 this.getCharts();
+                this.getAnnualObjectivesChart();
             }
         });
     }
@@ -78,10 +82,21 @@ export class StatisticComponent implements OnInit {
         });
     }
 
+    getAnnualObjectivesChart(): void
+    {
+        this.statisticService.getAnnualObjectivesChart(this.selectedActivityTypeId).subscribe({
+            next: (annualObjectiveChartData) => {
+                this.annualObjectiveChartData = annualObjectiveChartData;
+                this.prepareAnnualObjectiveChartData();
+            }
+        });
+    }
+
     activityTypeChanged(change: MatSelectChange): void
     {
         this.selectedActivityTypeId = change.value;
         this.getCharts();
+        this.getAnnualObjectivesChart();
     }
 
     private fixSvgFill(element: Element): void
@@ -370,6 +385,71 @@ export class StatisticComponent implements OnInit {
                 tickAmount: 5
             }
         };
+    }
 
+    private prepareAnnualObjectiveChartData(): void {
+        // Annual Objectives
+        this.chartAnnualObjectives = {
+            chart      : {
+                fontFamily: 'inherit',
+                foreColor : 'inherit',
+                height    : '100%',
+                type      : 'radar',
+                sparkline : {
+                    enabled: true
+                }
+            },
+            colors     : ['#818CF8'],
+            dataLabels : {
+                enabled   : true,
+                formatter : (val: number): string | number => `${val}%`,
+                textAnchor: 'start',
+                style     : {
+                    fontSize  : '13px',
+                    fontWeight: 500
+                },
+                background: {
+                    borderWidth: 0,
+                    padding    : 4
+                },
+                offsetY   : -15
+            },
+            markers    : {
+                strokeColors: '#818CF8',
+                strokeWidth : 4
+            },
+            plotOptions: {
+                radar: {
+                    polygons: {
+                        strokeColors   : 'var(--fuse-border)',
+                        connectorColors: 'var(--fuse-border)'
+                    }
+                }
+            },
+            series     : this.annualObjectiveChartData.series,
+            stroke     : {
+                width: 2
+            },
+            tooltip    : {
+                theme: 'dark',
+                y    : {
+                    formatter: (val: number): string => `${val}%`
+                }
+            },
+            xaxis      : {
+                labels    : {
+                    show : true,
+                    style: {
+                        fontSize  : '12px',
+                        fontWeight: '500'
+                    }
+                },
+                categories: this.annualObjectiveChartData.categories
+            },
+            yaxis      : {
+                max       : (max: number): number => parseInt((max + 10).toFixed(0), 10),
+                tickAmount: 7
+            }
+        };
     }
 }

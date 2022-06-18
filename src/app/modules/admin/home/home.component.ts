@@ -7,7 +7,7 @@ import {HomeService} from 'app/modules/admin/home/services/home.service';
 import {HomeDataWidgets} from 'app/modules/admin/home/types/home-data-widgets.type';
 import {ApexOptions} from 'ng-apexcharts';
 import {ActivityService} from '../activity/services/activity.service';
-import {CommunicationService} from "../../../core/communication/communication.service";
+import {CommunicationService} from 'app/core/communication/communication.service';
 
 @Component({
     selector: 'app-home',
