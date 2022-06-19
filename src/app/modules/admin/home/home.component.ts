@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
         },
         comeLater2             : {
             total: 46085,
-            series        : [35, 55, 10],
+            series        : [35, 15, 1],
             labels        : [
                 'Option 1',
                 'Option 2',
@@ -40,6 +40,10 @@ export class HomeComponent implements OnInit {
             ]
         },
     };
+    activityCount: number = 0;
+    totalDiscountCount: number = 0;
+    durationCount: number = 0;
+    consumedCaloriesCount: number = 0;
 
     constructor(
         private homeService: HomeService,
@@ -63,6 +67,7 @@ export class HomeComponent implements OnInit {
         this.homeService.getHomeDataWidgets().subscribe({
             next: (homeDataWidgets) => {
                 this.homeDataWidgets = homeDataWidgets;
+                // this.animateCount();
             }
         });
 
@@ -73,6 +78,42 @@ export class HomeComponent implements OnInit {
             }
         });
     }
+
+    animateCount(): void
+    {
+        const activityCountStop = setInterval(() => {
+            this.activityCount++;
+            if (this.activityCount === this.homeDataWidgets.activity_number) {
+                clearInterval(activityCountStop);
+            }
+
+        }, 1);
+
+        const totalDiscountCountStop = setInterval(() => {
+            this.totalDiscountCount++;
+            if (this.totalDiscountCount === this.homeDataWidgets.total_distance) {
+                clearInterval(totalDiscountCountStop);
+            }
+
+        }, 1);
+
+        const durationCountStop = setInterval(() => {
+            this.durationCount++;
+            if (this.durationCount === this.homeDataWidgets.time) {
+                clearInterval(durationCountStop);
+            }
+
+        }, 1);
+
+        const consumedCaloriesCountStop = setInterval(() => {
+            this.consumedCaloriesCount++;
+            if (this.consumedCaloriesCount === this.homeDataWidgets.consumed_calories) {
+                clearInterval(consumedCaloriesCountStop);
+            }
+
+        }, 1/1000);
+    }
+
 
     private prepareChartData(): void
     {
