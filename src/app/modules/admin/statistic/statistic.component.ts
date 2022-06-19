@@ -399,7 +399,7 @@ export class StatisticComponent implements OnInit {
                     enabled: true
                 }
             },
-            colors     : ['#818CF8'],
+            colors     : ['#F88181'],
             dataLabels : {
                 enabled   : true,
                 formatter : (val: number): string | number => `${val}%`,
@@ -415,7 +415,7 @@ export class StatisticComponent implements OnInit {
                 offsetY   : -15
             },
             markers    : {
-                strokeColors: '#818CF8',
+                strokeColors: '#F88181',
                 strokeWidth : 4
             },
             plotOptions: {

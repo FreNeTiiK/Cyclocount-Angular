@@ -2,7 +2,7 @@
     <!-- Header -->
     <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-15 px-8 md:px-15">
         <!-- Title -->
-        <div class="flex flex-col min-w-0 ml-4">
+        <div class="flex flex-col min-w-0 ml-4" *ngIf="user && user.username">
             <div class="text-4xl md:text-6xl font-semibold tracking-tight leading-7 md:leading-snug truncate">Hello {{user.username}} !</div>
             <div class="flex flex-auto items-center">
                 <div class="leading-6 truncate text-secondary">Bienvenue sur CycloCount</div>

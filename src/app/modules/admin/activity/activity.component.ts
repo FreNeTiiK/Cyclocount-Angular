@@ -66,9 +66,9 @@ export class ActivityComponent implements OnInit {
             description: [null],
             departure_time: [null],
             arrival_time: [null],
-            distance: [null],
-            speed_average: [null],
-            speed_max: [null],
+            distance: [null, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')],
+            speed_average: [null, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')],
+            speed_max: [null, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')],
             height_difference: [null],
             power_average: [null],
             calories_consumed: [null]

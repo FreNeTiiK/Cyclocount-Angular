@@ -1,4 +1,4 @@
 export const environment = {
-    apiUrl: 'https://user-api.zoranne.io/api',
+    apiUrl: 'https://cyclocount-api.simonvennat.fr/api',
     production: true
 };
