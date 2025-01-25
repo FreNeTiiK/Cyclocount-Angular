@@ -146,7 +146,7 @@
                             <div>
                                 <mat-form-field class="fuse-mat-no-subscript w-full sm:w-36">
                                     <mat-select
-                                        [(value)]="annualObjective.type_objective.id"
+                                        [(value)]="annualObjective.typeObjective.id"
                                         (selectionChange)="changeSelect(annualObjective)">
                                         <ng-container *ngFor="let typeObjective of typeObjectives">
                                             <mat-option [value]="typeObjective.id">{{typeObjective.name}}</mat-option>
@@ -184,7 +184,7 @@
                             <mat-form-field class="fuse-mat-no-subscript w-full sm:w-36">
                                 <mat-select
                                     placeholder="Type"
-                                    [formControlName]="'type_objective_id'">
+                                    [formControlName]="'typeObjectiveId'">
                                     <ng-container *ngFor="let typeObjective of typeObjectives">
                                         <mat-option [value]="typeObjective.id">{{typeObjective.name}}</mat-option>
                                     </ng-container>

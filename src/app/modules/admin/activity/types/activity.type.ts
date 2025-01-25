@@ -7,16 +7,16 @@ export interface Activity {
     id: number;
     title: string;
     description: string;
-    departure_time: string;
-    arrival_time: string;
+    departureTime: string;
+    arrivalTime: string;
     distance: number;
-    speed_average: number;
-    speed_max: number;
-    height_difference: number;
-    power_average: number;
-    calories_consumed: number;
-    activity_type: ActivityType;
+    speedAverage: number;
+    speedMax: number;
+    heightDifference: number;
+    powerAverage: number;
+    caloriesConsumed: number;
+    activityType: ActivityType;
     equipment: Equipment | null;
     difficulty: Difficulty | null;
-    user_link: User;
+    userLink: User;
 }

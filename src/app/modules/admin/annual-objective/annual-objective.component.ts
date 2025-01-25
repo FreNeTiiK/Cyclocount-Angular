@@ -48,13 +48,13 @@ export class AnnualObjectiveComponent implements OnInit, AfterViewInit {
         this.selectedAnnualObjectiveForm = this.formBuilder.group({
             name: [null, Validators.required],
             quantity: [null, Validators.required],
-            type_objective: [null, Validators.required],
+            typeObjective: [null, Validators.required],
         });
 
         this.createAnnualObjectiveForm = this.formBuilder.group({
             name: [null, Validators.required],
             quantity: [null, Validators.required],
-            type_objective_id: [null, Validators.required],
+            typeObjectiveId: [null, Validators.required],
         });
 
         this.getAnnualObjectives();
@@ -169,8 +169,8 @@ export class AnnualObjectiveComponent implements OnInit, AfterViewInit {
         this.createAnnualObjectiveForm.reset();
         this.selectedAnnualObjective = {
             id: null,
-            user_link: this.user,
-            type_objective: null,
+            userLink: this.user,
+            typeObjective: null,
             name: null,
             quantity: null,
         };
@@ -185,8 +185,8 @@ export class AnnualObjectiveComponent implements OnInit, AfterViewInit {
     {
         const createAnnualObjectiveValues = this.createAnnualObjectiveForm.getRawValue();
         const annualObjectiveToCreate = {
-            user_id: this.user.id,
-            type_objective_id: createAnnualObjectiveValues.type_objective_id,
+            userId: this.user.id,
+            typeObjectiveId: createAnnualObjectiveValues.typeObjectiveId,
             name: createAnnualObjectiveValues.name,
             quantity: createAnnualObjectiveValues.quantity,
         };
@@ -205,8 +205,8 @@ export class AnnualObjectiveComponent implements OnInit, AfterViewInit {
     getAnnualObjectiveToUpdate(annualObjective: AnnualObjective): AnnualObjectivePush
     {
         return {
-            user_id: this.user.id,
-            type_objective_id: annualObjective.type_objective.id,
+            userId: this.user.id,
+            typeObjectiveId: annualObjective.typeObjective.id,
             name: annualObjective.name,
             quantity: annualObjective.quantity,
         };

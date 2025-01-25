@@ -40,8 +40,8 @@ export class SettingsAccountComponent implements OnInit
     {
         // Create the form
         this.accountForm = this._formBuilder.group({
-            first_name    : [this.user.first_name, Validators.required],
-            last_name    : [this.user.last_name, Validators.required],
+            first_name    : [this.user.firstName, Validators.required],
+            last_name    : [this.user.lastName, Validators.required],
             username: [this.user.username, Validators.required],
             birthday   : [moment(this.user.birthday, 'YYYY-DD-MM')],
             address   : [this.user.address],

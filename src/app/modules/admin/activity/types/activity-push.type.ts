@@ -1,17 +1,16 @@
-
 export interface ActivityPush {
-    user_id: number;
-    equipment_id: number;
-    activity_type_id: number;
-    difficulty_id: number;
+    userId: number;
+    equipmentId: number;
+    activityTypeId: number;
+    difficultyId: number;
     distance: number;
     title: string;
     description: string|null;
-    departure_time: string|null;
-    arrival_time: string|null;
-    speed_average: number;
-    speed_max: number;
-    height_difference: number|null;
-    power_average: number|null;
-    calories_consumed: number|null;
+    departureTime: string|null;
+    arrivalTime: string|null;
+    speedAverage: number;
+    speedMax: number;
+    heightDifference: number|null;
+    powerAverage: number|null;
+    caloriesConsumed: number|null;
 }

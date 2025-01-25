@@ -58,7 +58,7 @@
                                 <div class="activities-grid grid items-center gap-4 py-2 px-6 md:px-8 border-b">
                                     <!-- Date -->
                                     <div>
-                                        {{moment(activity.departure_time).isValid() ? moment(activity.departure_time).format('DD/MM/YYYY') : ''}}
+                                        {{moment(activity.departureTime).isValid() ? moment(activity.departureTime).format('DD/MM/YYYY') : ''}}
                                     </div>
 
                                     <!-- Title -->
@@ -68,7 +68,7 @@
 
                                     <!-- Type -->
                                     <div>
-                                        {{activity.activity_type?.name || '-'}}
+                                        {{activity.activityType?.name || '-'}}
                                     </div>
 
                                     <!-- Distance -->
@@ -78,18 +78,18 @@
 
                                     <!-- Duration -->
                                     <div>
-                                        {{moment(activity.departure_time).isValid() && moment(activity.arrival_time).isValid() ?
-                                        getDuration(activity.departure_time, activity.arrival_time) : '-'}}
+                                        {{moment(activity.departureTime).isValid() && moment(activity.arrivalTime).isValid() ?
+                                        getDuration(activity.departureTime, activity.arrivalTime) : '-'}}
                                     </div>
 
                                     <!-- Speed Average -->
                                     <div>
-                                        {{activity.speed_average || '-'}} {{activity.speed_average && 'km/h'}}
+                                        {{activity.speedAverage || '-'}} {{activity.speedAverage && 'km/h'}}
                                     </div>
 
                                     <!-- Speed Max -->
                                     <div class="hidden lg:block truncate">
-                                        {{activity.speed_max || '-'}} {{activity.speed_max && 'km/h'}}
+                                        {{activity.speedMax || '-'}} {{activity.speedMax && 'km/h'}}
                                     </div>
 
                                     <div>
@@ -141,7 +141,7 @@
                                                 <mat-form-field class="fuse-mat-no-subscript w-4/5">
                                                     <mat-label>Type</mat-label>
                                                     <mat-select
-                                                        [formControlName]="'activity_type_id'"
+                                                        [formControlName]="'activityTypeId'"
                                                         (selectionChange)="activityTypeChanged($event)">
                                                         <ng-container *ngFor="let activityType of activityTypes">
                                                             <mat-option [value]="activityType.id">{{activityType.name}}</mat-option>
@@ -168,7 +168,7 @@
                                                 <mat-form-field class="fuse-mat-no-subscript w-4/5">
                                                     <mat-label>Difficulté ressentie</mat-label>
                                                     <mat-select
-                                                        [formControlName]="'difficulty_id'">
+                                                        [formControlName]="'difficultyId'">
                                                         <ng-container *ngFor="let difficulty of difficulties">
                                                             <mat-option [value]="difficulty.id">{{difficulty.name}}</mat-option>
                                                         </ng-container>
@@ -205,7 +205,7 @@
                                                     <mat-label>Vitesse moyenne</mat-label>
                                                     <input
                                                         matInput
-                                                        [formControlName]="'speed_average'">
+                                                        [formControlName]="'speedAverage'">
                                                 </mat-form-field>
                                             </div>
 
@@ -215,7 +215,7 @@
                                                     <mat-label>Vitesse maximale</mat-label>
                                                     <input
                                                         matInput
-                                                        [formControlName]="'speed_max'">
+                                                        [formControlName]="'speedMax'">
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -227,7 +227,7 @@
                                                 <mat-form-field class="fuse-mat-no-subscript w-4/5">
                                                     <mat-label>Équipement</mat-label>
                                                     <mat-select
-                                                        [formControlName]="'equipment_id'">
+                                                        [formControlName]="'equipmentId'">
                                                             <mat-option [value]="'none'">Aucun</mat-option>
                                                         <ng-container *ngFor="let equipment of equipments">
                                                             <mat-option [value]="equipment.id">{{equipment.name}}</mat-option>
@@ -242,7 +242,7 @@
                                                     <mat-label>Calories consommées</mat-label>
                                                     <input
                                                         matInput
-                                                        [formControlName]="'calories_consumed'">
+                                                        [formControlName]="'caloriesConsumed'">
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -256,7 +256,7 @@
                                                 <mat-form-field class="fuse-mat-no-subscript w-4/5">
                                                     <mat-label>Date de départ</mat-label>
                                                     <input matInput [ngxMatDatetimePicker]="departureDatepicker"
-                                                           [formControlName]="'departure_time'">
+                                                           [formControlName]="'departureTime'">
                                                     <mat-datepicker-toggle
                                                         matSuffix
                                                         [for]="departureDatepicker">
@@ -270,7 +270,7 @@
                                                 <mat-form-field class="fuse-mat-no-subscript w-4/5">
                                                     <mat-label>Date d'arrivée</mat-label>
                                                     <input matInput [ngxMatDatetimePicker]="arrivalDatepicker"
-                                                           [formControlName]="'arrival_time'">
+                                                           [formControlName]="'arrivalTime'">
                                                     <mat-datepicker-toggle
                                                         matSuffix
                                                         [for]="arrivalDatepicker">
@@ -288,7 +288,7 @@
                                                     <mat-label>Puissance moyenne</mat-label>
                                                     <input
                                                         matInput
-                                                        [formControlName]="'power_average'">
+                                                        [formControlName]="'powerAverage'">
                                                 </mat-form-field>
                                             </div>
 
@@ -298,7 +298,7 @@
                                                     <mat-label>Dénivelé</mat-label>
                                                     <input
                                                         matInput
-                                                        [formControlName]="'height_difference'">
+                                                        [formControlName]="'heightDifference'">
                                                 </mat-form-field>
                                             </div>
                                         </div>

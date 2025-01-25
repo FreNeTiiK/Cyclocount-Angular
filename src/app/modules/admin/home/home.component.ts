@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
                 }
             },
             colors     : ['#3C82F7', '#2C5190'],
-            labels     : this.homeDataCharts.activity_type.labels,
+            labels     : this.homeDataCharts.activityType.labels,
             plotOptions: {
                 pie: {
                     customScale  : 0.9,
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
                     }
                 }
             },
-            series     : this.homeDataCharts.activity_type.series,
+            series     : this.homeDataCharts.activityType.series,
             states     : {
                 hover : {
                     filter: {

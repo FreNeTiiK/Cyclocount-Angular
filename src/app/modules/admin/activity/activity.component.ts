@@ -59,19 +59,19 @@ export class ActivityComponent implements OnInit {
     {
         this.selectedActivityForm = this.formBuilder.group({
             title: [null, Validators.required],
-            user_id: [this.user.id, Validators.required],
-            equipment_id: ['none'],
-            activity_type_id: [null, Validators.required],
-            difficulty_id: [null],
+            userId: [this.user.id, Validators.required],
+            equipmentId: ['none'],
+            activityTypeId: [null, Validators.required],
+            difficultyId: [null],
             description: [null],
-            departure_time: [null],
-            arrival_time: [null],
+            departureTime: [null],
+            arrivalTime: [null],
             distance: [null, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')],
-            speed_average: [null, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')],
-            speed_max: [null, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')],
-            height_difference: [null],
-            power_average: [null],
-            calories_consumed: [null]
+            speedAverage: [null, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')],
+            speedMax: [null, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')],
+            heightDifference: [null],
+            powerAverage: [null],
+            caloriesConsumed: [null]
         });
 
         this.getActivitiesTable();
@@ -102,7 +102,7 @@ export class ActivityComponent implements OnInit {
                 if (this.selectedActivity && this.selectedActivity.equipment) {
                     const selectedActivityEquipment = this.equipments.find(e => e.id === this.selectedActivity.equipment.id);
                     if (!selectedActivityEquipment) {
-                        this.selectedActivityForm.patchValue({equipment_id: 'none'});
+                        this.selectedActivityForm.patchValue({equipmentId: 'none'});
                     }
                 }
             },
@@ -150,17 +150,17 @@ export class ActivityComponent implements OnInit {
         }
 
         this.selectedActivity = this.activities.find(item => item.id === activityId) || null;
-        this.selectedActivityForm.patchValue({user_id: this.selectedActivity.user_link.id});
-        this.selectedActivityForm.patchValue({equipment_id: this.selectedActivity.equipment ? this.selectedActivity.equipment.id : 'none'});
-        this.selectedActivityForm.patchValue({difficulty_id: this.selectedActivity.difficulty?.id});
-        this.selectedActivityForm.patchValue({activity_type_id: this.selectedActivity.activity_type.id});
+        this.selectedActivityForm.patchValue({userId: this.selectedActivity.userLink.id});
+        this.selectedActivityForm.patchValue({equipmentId: this.selectedActivity.equipment ? this.selectedActivity.equipment.id : 'none'});
+        this.selectedActivityForm.patchValue({difficultyId: this.selectedActivity.difficulty?.id});
+        this.selectedActivityForm.patchValue({activityTypeId: this.selectedActivity.activityType.id});
         this.selectedActivityForm.patchValue(this.selectedActivity);
     }
 
     closeDetails(): void
     {
         this.selectedActivity = null;
-        this.selectedActivityForm.reset({user_id: this.user.id, equipment_id: 'none'});
+        this.selectedActivityForm.reset({userId: this.user.id, equipmentId: 'none'});
     }
 
     deleteSelectedActivity(): void
@@ -192,24 +192,24 @@ export class ActivityComponent implements OnInit {
     createActivity(): void
     {
         this.addingMode = true;
-        this.selectedActivityForm.reset({user_id: this.user.id, equipment_id: 'none'});
+        this.selectedActivityForm.reset({userId: this.user.id, equipmentId: 'none'});
 
         this.selectedActivity = {
             id: null,
-            user_link: this.user,
-            activity_type: null,
+            userLink: this.user,
+            activityType: null,
             equipment: null,
             difficulty: null,
             title: null,
             description: null,
-            departure_time: null,
-            arrival_time: null,
+            departureTime: null,
+            arrivalTime: null,
             distance: null,
-            speed_average: null,
-            speed_max: null,
-            height_difference: null,
-            power_average: null,
-            calories_consumed: null,
+            speedAverage: null,
+            speedMax: null,
+            heightDifference: null,
+            powerAverage: null,
+            caloriesConsumed: null,
         };
 
         this.activities.unshift(this.selectedActivity);
@@ -226,7 +226,7 @@ export class ActivityComponent implements OnInit {
             next: () => {
                 this.getActivitiesTable();
                 this.addingMode = false;
-                this.selectedActivityForm.reset({user_id: this.user.id, equipment_id: 'none'});
+                this.selectedActivityForm.reset({userId: this.user.id, equipmentId: 'none'});
                 this.showFlashMessage('success', 'Activité créée');
             },
             error: (err) => {
@@ -257,16 +257,16 @@ export class ActivityComponent implements OnInit {
 
     formateFormDates(): void
     {
-        const departureDateFormValue = this.selectedActivityForm.get('departure_time').value;
-        const arrivalDateFormValue = this.selectedActivityForm.get('arrival_time').value;
-        this.selectedActivityForm.patchValue({departure_time: departureDateFormValue ? moment(departureDateFormValue).format('YYYY-MM-DD HH:mm:ss') : null});
-        this.selectedActivityForm.patchValue({arrival_time: arrivalDateFormValue ? moment(arrivalDateFormValue).format('YYYY-MM-DD HH:mm:ss') : null});
+        const departureDateFormValue = this.selectedActivityForm.get('departureTime').value;
+        const arrivalDateFormValue = this.selectedActivityForm.get('arrivalTime').value;
+        this.selectedActivityForm.patchValue({departureTime: departureDateFormValue ? moment(departureDateFormValue).format('YYYY-MM-DD HH:mm:ss') : null});
+        this.selectedActivityForm.patchValue({arrivalTime: arrivalDateFormValue ? moment(arrivalDateFormValue).format('YYYY-MM-DD HH:mm:ss') : null});
     }
 
     cancelAdding(): void
     {
         this.addingMode = false;
-        this.selectedActivityForm.reset({user_id: this.user.id, equipment_id: 'none'});
+        this.selectedActivityForm.reset({userId: this.user.id, equipmentId: 'none'});
         this.getActivitiesTable();
     }
 

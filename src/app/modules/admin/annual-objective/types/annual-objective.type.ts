@@ -5,6 +5,6 @@ export interface AnnualObjective {
     id: number;
     name: string;
     quantity: number;
-    type_objective: TypeObjective;
-    user_link: User;
+    typeObjective: TypeObjective;
+    userLink: User;
 }

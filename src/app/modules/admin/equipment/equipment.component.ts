@@ -55,7 +55,7 @@ export class EquipmentComponent implements OnInit,AfterViewInit {
         });
         this.createEquipmentForm = this.formBuilder.group({
             name: [null, Validators.required],
-            activity_type_id: [null, Validators.required],
+            activityTypeId: [null, Validators.required],
         });
 
         // Subscribe to media changes
@@ -116,7 +116,7 @@ export class EquipmentComponent implements OnInit,AfterViewInit {
 
     findActivityTypeEquipments(activityType: ActivityType): Equipment[]
     {
-        return this.equipments.filter(e => activityType.id === e.activity_type.id);
+        return this.equipments.filter(e => activityType.id === e.activityType.id);
     }
 
     editEquipment(equipment: Equipment): void
@@ -132,7 +132,7 @@ export class EquipmentComponent implements OnInit,AfterViewInit {
     {
         const equipment = this.selectedEquipmentForm.getRawValue();
         const equipmentToUpdate = {
-            user_id: this.user.id,
+            userId: this.user.id,
             name: equipment.name,
         };
 
@@ -195,8 +195,8 @@ export class EquipmentComponent implements OnInit,AfterViewInit {
     {
         const createEquipmentValues = this.createEquipmentForm.getRawValue();
         const equipmentToCreate = {
-            user_id: this.user.id,
-            activity_type_id: createEquipmentValues.activity_type_id,
+            userId: this.user.id,
+            activityTypeId: createEquipmentValues.activityTypeId,
             name: createEquipmentValues.name,
         };
 

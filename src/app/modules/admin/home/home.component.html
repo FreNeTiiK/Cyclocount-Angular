@@ -20,7 +20,7 @@
                 <div class="flex flex-col items-center mt-2">
                     <animated-digit
                         class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500"
-                        [digit]="this.homeDataWidgets.activity_number"
+                        [digit]="this.homeDataWidgets.activityNumber"
                         [duration]="1000"></animated-digit>
                     <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Sorties</div>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="flex flex-col items-center mt-2">
                     <animated-digit
                         class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500"
-                        [digit]="this.homeDataWidgets.total_distance"
+                        [digit]="this.homeDataWidgets.totalDistance"
                         [duration]="1000"></animated-digit>
                     <div class="text-lg font-medium text-red-600 dark:text-red-500">Kilomètres</div>
                 </div>
@@ -53,7 +53,7 @@
                 <div class="flex flex-col items-center mt-2">
                     <animated-digit
                         class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500"
-                        [digit]="this.homeDataWidgets.consumed_calories"
+                        [digit]="this.homeDataWidgets.consumedCalories"
                         [duration]="1000"></animated-digit>
                     <div class="text-lg font-medium text-amber-600 dark:text-amber-500">Calories</div>
                 </div>
@@ -77,15 +77,15 @@
                 </div>
                 <div class="mt-8">
                     <div class="-my-3 divide-y">
-                        <ng-container *ngFor="let dataset of homeDataCharts.activity_type.series; let i = index">
+                        <ng-container *ngFor="let dataset of homeDataCharts.activityType.series; let i = index">
                             <div class="grid grid-cols-3 py-3">
                                 <div class="flex items-center">
                                     <div
                                         class="flex-0 w-2 h-2 rounded-full"
                                         [style.backgroundColor]="chartActivityType.colors[i]"></div>
-                                    <div class="ml-3 truncate">{{homeDataCharts.activity_type.labels[i]}}</div>
+                                    <div class="ml-3 truncate">{{homeDataCharts.activityType.labels[i]}}</div>
                                 </div>
-                                <div class="font-medium text-right">{{homeDataCharts.activity_type.activities * dataset / 100 | number:'1.0-0'}}</div>
+                                <div class="font-medium text-right">{{homeDataCharts.activityType.activities * dataset / 100 | number:'1.0-0'}}</div>
                                 <div class="text-right text-secondary">{{dataset | number:'1.0-2'}}%</div>
                             </div>
                         </ng-container>

@@ -1,7 +1,7 @@
 
 export interface AnnualObjectivePush {
-    user_id: number;
-    type_objective_id: number;
+    userId: number;
+    typeObjectiveId: number;
     name: string;
     quantity: number;
 }

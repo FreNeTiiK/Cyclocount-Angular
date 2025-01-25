@@ -46,7 +46,7 @@
                     <mat-form-field class="fuse-mat-no-subscript w-4/5">
                         <mat-label>Type d'activité</mat-label>
                         <mat-select
-                            [formControlName]="'activity_type_id'">
+                            [formControlName]="'activityTypeId'">
                             <ng-container *ngFor="let activityType of activityTypes">
                                 <mat-option [value]="activityType.id">{{activityType.name}}</mat-option>
                             </ng-container>
